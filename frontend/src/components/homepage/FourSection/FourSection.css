@@ -1,0 +1,80 @@
+/* FourthSection.css */
+.fourth-section {
+    padding: 2rem 2rem; /* Add padding to the section */
+    background: #f9f9f9;
+    background-color: #e2eff6; /* Light background color */
+  }
+  
+  .fourth-section-container {
+    max-width: 1340px; /* Limit the width of the section */
+    margin: 0 auto; /* Center the section */
+    text-align: center; /* Center the title */
+  }
+  
+  .section-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 0.4rem; 
+    color: #054fd7; 
+    text-align: center;
+  }
+  
+.sous-title{
+    font-size: 1.1rem;
+    color: #666; 
+    margin-bottom: 3rem;
+}
+
+  .cards-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow cards to wrap on smaller screens */
+    gap: 2rem; /* Space between cards */
+    justify-content: center; /* Center cards horizontally */
+  }
+  
+  .card {
+    flex: 1 1 calc(33.33% - 2rem); /* Each card takes 33.33% of the container width */
+    background: #fff; /* White background for the card */
+    border-radius: 10px; /* Rounded corners */
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+    text-align: center; /* Center content */
+    display: flex;
+    flex-direction: column; /* Stack content vertically */
+    align-items: center; /* Center items horizontally */
+  }
+  
+  .client-avatar {
+    width: 100px; /* Fixed width for avatar */
+    height: 100px; /* Fixed height for avatar */
+    border-radius: 50%; /* Circular avatar */
+    margin-bottom: 1.5rem;
+    object-fit: cover; /* Ensure the image covers the area */
+  }
+  
+  .client-comment {
+    font-size: 1rem;
+    color: #666; /* Text color */
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    flex-grow: 1; /* Allow text to grow and fill remaining space */
+  }
+  
+  .client-name {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333; /* Name color */
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .card {
+      flex: 1 1 calc(50% - 2rem); /* 2 cards per row on smaller screens */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .card {
+      flex: 1 1 100%; /* 1 card per row on mobile screens */
+    }
+  }

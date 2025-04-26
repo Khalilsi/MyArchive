@@ -1,0 +1,166 @@
+.request-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.left-panel {
+  flex: 1;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+              url('demandeBackground.webp') center/cover no-repeat;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  text-align: center;
+}
+
+.image-overlay {
+  max-width: 600px;
+}
+
+.left-panel h1 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.left-panel p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.right-panel {
+  flex: 1;
+  padding: 2rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #f9f9f9;
+  max-width: 1200px;
+  overflow-y: auto;
+}
+
+.form-row {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1.2rem;
+  width: 100%;
+}
+
+.form-row .ant-form-item {
+  flex: 1;
+  min-width: 50%;
+  margin-bottom: 0;
+}
+
+.ant-form-item-control-input-content {
+  width: 100%;
+}
+
+.ant-select {
+  width: 100% !important;
+}
+
+.packages-row {
+  width: 100%;
+  margin-top: -2rem;
+}
+
+.packages-row .ant-radio-group {
+  display: flex;
+  gap: 2rem;
+  justify-content: flex-start;
+}
+
+.selected-archives {
+  min-height: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-top: 8px;
+}
+
+/* Package Cards Styling */
+.package-card {
+  width: 100%;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid #d9d9d9;
+  height: 100%;
+}
+
+.package-card.selected {
+  border: 2px solid #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.package-card-content {
+  padding: 16px;
+  text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.package-card h3 {
+  margin: 8px 0;
+  color: #1890ff;
+}
+
+.package-details {
+  margin-top: 12px;
+  color: #666;
+  flex-grow: 1;
+}
+
+
+/* Responsive design */
+/* Responsive Breakpoints */
+@media (max-width: 768px) {
+  .request-container {
+    flex-direction: column;
+  }
+
+  .left-panel {
+    min-height: 300px;
+  }
+
+  .right-panel {
+    padding: 1.5rem;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .selected-archives {
+    margin: 0.3rem 0;
+  }
+
+  .submit-btn {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .right-panel {
+    padding: 2rem;
+  }
+
+  .form-row {
+    flex-direction: row;
+  }
+
+  .form-row .ant-form-item {
+    min-width: 48%;
+  }
+}
+
+@media (min-width: 1025px) {
+  .right-panel {
+    padding: 3rem 4rem;
+  }
+}

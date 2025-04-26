@@ -1,0 +1,169 @@
+/* ContactSection.css */
+.contact-section {
+    padding: 4rem 2rem;
+    background: #fff;
+  }
+  
+  .contact-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .contact-title {
+    font-size: 2.5rem;
+    color: #054fd7;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .contact-content {
+    display: flex;
+    gap: 3rem;
+  }
+  
+  .contact-info {
+    flex: 1;
+    padding: 1rem;
+  }
+  
+  .contact-info h3 {
+    font-size: 1.7rem;
+    color: #333;
+    margin-bottom: 0.8rem;
+    font-weight: bolder;
+  }
+  
+  .contact-info a {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+  }
+  .contact-icon {
+    font-size: 1.6rem;
+    color: #4f46e5; /* or your preferred color */
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .contact-form {
+    flex: 1;
+    padding: 1rem;
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .form-group {
+    flex: 1;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
+  .form-group textarea {
+    resize: vertical;
+  }
+  
+  .submit-button {
+    background: #054fd7;
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 1rem;
+    transition: background 0.3s;
+  }
+  
+  .submit-button:hover {
+    background: #043a9e;
+  }
+  
+  /* Responsive Styles */
+/* ContactSection.css - Mobile Stack Layout */
+@media (max-width: 480px) {
+  .contact-section {
+    padding: 2rem 1rem;
+  }
+
+  .contact-title {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-content {
+    display: block; /* Stack all children */
+  }
+
+  .contact-info {
+    margin-bottom: 2rem;
+    padding: 0;
+  }
+
+  .contact-info h3 {
+    font-size: 1.3rem;
+  }
+
+  .contact-info a {
+    align-items: center;
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 1rem;
+    text-decoration: none;
+  }
+
+  .contact-icon {
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+    color: #054fd7;
+  }
+
+  .contact-form {
+    padding: 0;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 0;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
+
+  .form-group label {
+    font-size: 0.95rem;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 0.7rem;
+    font-size: 0.95rem;
+  }
+
+  .submit-button {
+    padding: 0.9rem;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+  }
+}

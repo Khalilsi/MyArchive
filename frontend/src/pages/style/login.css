@@ -1,0 +1,54 @@
+.login-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.login-background {
+  flex: 1;
+  background-image: url('image.png');
+  background-size: cover;
+  background-position: center;
+  display: none;
+}
+
+.background-overlay {
+  background: rgba(0, 0, 0, 0.5);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem;
+  color: white;
+}
+
+.login-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.login-title {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.remember-forgot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+@media (min-width: 768px) {
+  .login-background {
+    display: block;
+  }
+}
