@@ -16,4 +16,12 @@ var transporter = nodemailer.createTransport({
   
   });
 
+  transporter.verify(function(error, success) {
+    if (error) {
+      console.log('Email service error:', error);
+    } else {
+      console.log('Email server is ready');
+    }
+  });
+
 module.exports = transporter;

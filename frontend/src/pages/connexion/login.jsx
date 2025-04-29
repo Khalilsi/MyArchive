@@ -15,16 +15,29 @@ const Login = () => {
         email: values.email,
         password: values.password,
       });
-
-      if (values.remember) {
-        localStorage.setItem('token', response.data.token);
+  
+      if (response.data.token) {
+        // Always store the token, but choose where based on remember me
+        const token = response.data.token;
+        
+        if (values.remember) {
+          localStorage.setItem('token', token);
+          sessionStorage.removeItem('token'); // Clear session storage
+        } else {
+          sessionStorage.setItem('token', token);
+          localStorage.removeItem('token'); // Clear local storage
+        }
+        
+        // Log the token for debugging
+        console.log('Token received:', response.data.token);
+        
+        message.success('Login successful!');
+        navigate('/admin/requests');
       } else {
-        sessionStorage.setItem('token', response.data.token);
+        message.error('No token received from server');
       }
-      
-      message.success('Login successful!');
-      navigate('/');
     } catch (error) {
+      console.error('Login error:', error.response?.data || error);
       message.error('Login failed! Please check your credentials.');
     }
   };

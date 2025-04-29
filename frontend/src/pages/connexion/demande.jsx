@@ -8,9 +8,10 @@ import {
   Tag,
   message,
   Card,
-  Row,
   Col,
-  Typography,
+  Row,
+  Result,
+  Modal
 } from "antd";
 import axios from "axios";
 import "../style/demande.css";
@@ -20,6 +21,7 @@ const RequestForm = () => {
   const [selectedArchives, setSelectedArchives] = useState([]);
   const [submitting, setSubmitting] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(null);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const sectors = [
     "Technologie",
@@ -61,7 +63,6 @@ const RequestForm = () => {
   const onFinish = async (values) => {
     setSubmitting(true);
     try {
-      // Prepare data to match your API structure
       const requestData = {
         nomEntreprise: values.companyName,
         secteurActivite: values.sector,
@@ -78,9 +79,10 @@ const RequestForm = () => {
       );
 
       if (response.data.success) {
-        message.success(response.data.msg);
+        setIsSuccess(true);
         form.resetFields();
         setSelectedArchives([]);
+        setSelectedPackage(null);
       } else {
         message.error("Erreur lors de la soumission de la demande");
       }
@@ -94,6 +96,45 @@ const RequestForm = () => {
       setSubmitting(false);
     }
   };
+  if (isSuccess) {
+    return (
+      <div className="request-container">
+        <Modal
+          visible={isSuccess}
+          footer={null}
+          closable={false}
+          centered
+          width={600}
+          maskStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}
+          bodyStyle={{ padding: '48px 24px' }}
+        >
+        <Result
+          status="success"
+          title="Demande envoyée avec succès!"
+          subTitle="Nous avons bien reçu votre demande de numérisation. Notre équipe la traitera dans les plus brefs délais."
+          extra={[
+            <Button 
+              type="primary" 
+              key="new"
+              onClick={() => {
+                setIsSuccess(false);
+                form.resetFields();
+              }}
+            >
+              Nouvelle Demande
+            </Button>,
+            <Button 
+              key="home"
+              onClick={() => window.location.href = '/'}
+            >
+              Retour à l'accueil
+            </Button>,
+          ]}
+        />
+        </Modal>
+      </div>
+    );
+  }
 
   return (
     <div className="request-container">
@@ -114,12 +155,11 @@ const RequestForm = () => {
           layout="vertical"
           onFinish={onFinish}
           initialValues={{ remember: false }}
-          className="request-form"
         >
-          <Typography.Title level={2}>
+          <h2>
             Remplissez le formulaire pour commencer votre demande de
             numérisation :
-          </Typography.Title>
+          </h2>
 
           <div className="form-row">
             <Form.Item
@@ -206,8 +246,7 @@ const RequestForm = () => {
                       key={type}
                       closable
                       onClose={() => removeArchiveType(type)}
-                      style={{ margin: "7px" }}
-                      color="blue"
+                      style={{ margin: "4px" }}
                     >
                       {type}
                     </Tag>
@@ -225,7 +264,7 @@ const RequestForm = () => {
             ]}
             className="packages-row"
           >
-            <Row gutter={[16, 16]} >
+            <Row gutter={[16, 16]} justify="space-around">
               {packages.map((pkg) => (
                 <Col key={pkg} xs={24} sm={12} md={8}>
                   <Card
@@ -242,7 +281,7 @@ const RequestForm = () => {
                       />
                       <h3>{pkg}</h3>
                       <div className="package-details">
-                        
+                        {/* Empty for now - will add content later */}
                       </div>
                     </div>
                   </Card>
@@ -256,12 +295,6 @@ const RequestForm = () => {
               type="primary"
               htmlType="submit"
               className="submit-btn"
-              size="large"
-              style={{
-                width: "50%",
-                alignContent: "center",
-                marginLeft: "25%",
-              }}
               block
               loading={submitting}
             >
