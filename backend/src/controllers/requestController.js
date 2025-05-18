@@ -138,7 +138,7 @@ exports.getRequest = async (req, res) => {
           const hashedPassword = await bcrypt.hash(tempPassword, salt);
   
           const newUser = new User({
-            username: updatedRequest.email.split('@')[0],
+            
             email: updatedRequest.email,
             password: hashedPassword,
             role: 'user',

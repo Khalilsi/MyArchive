@@ -1,44 +1,58 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate,Link } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Form, Input, Button, Checkbox, message } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import '../style/login.css'; 
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Form, Input, Button, Checkbox, message } from "antd";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import "../style/login.css";
+import { useAuth } from "../../context/AuthContext"; // Import the AuthContext
 
 const Login = () => {
+  const { login } = useAuth(); // Get the login function from AuthContext
   const navigate = useNavigate();
 
   const handleSubmit = async (values) => {
     try {
-      const response = await axios.post('http://localhost:4000/api/auth/login', {
-        email: values.email,
-        password: values.password,
-      });
-  
-      if (response.data.token) {
-        // Always store the token, but choose where based on remember me
-        const token = response.data.token;
-        
-        if (values.remember) {
-          localStorage.setItem('token', token);
-          sessionStorage.removeItem('token'); // Clear session storage
-        } else {
-          sessionStorage.setItem('token', token);
-          localStorage.removeItem('token'); // Clear local storage
+      const response = await axios.post(
+        "http://localhost:4000/api/auth/login",
+        {
+          email: values.email,
+          password: values.password,
         }
-        
-        // Log the token for debugging
-        console.log('Token received:', response.data.token);
-        
-        message.success('Login successful!');
-        navigate('/admin/requests');
+      );
+
+      if (response.data.success) {
+        const { token, user } = response.data;
+
+        // Store token based on remember me preference
+        if (values.remember) {
+          localStorage.setItem("token", token);
+          sessionStorage.removeItem("token");
+        } else {
+          sessionStorage.setItem("token", token);
+          localStorage.removeItem("token");
+        }
+
+        // Use the login function from AuthContext
+        login(user, token);
+
+        message.success("Login successful!");
+
+        // Navigate based on user role
+        if (user.role === "admin") {
+          navigate("/admin/users");
+        } else if (user.role === "user") {
+          navigate("/client/dashboard");
+        }
       } else {
-        message.error('No token received from server');
+        message.error("Login failed");
       }
     } catch (error) {
-      console.error('Login error:', error.response?.data || error);
-      message.error('Login failed! Please check your credentials.');
+      console.error("Login error:", error.response?.data?.msg || error.message);
+      message.error(
+        error.response?.data?.msg ||
+          "Login failed! Please check your credentials."
+      );
     }
   };
 
@@ -64,21 +78,17 @@ const Login = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input your email!',
-                validateTrigger: 'onSubmit'
+                message: "Please input your email!",
+                validateTrigger: "onSubmit",
               },
               {
-                type: 'email',
-                message: 'Please enter a valid email!',
-                validateTrigger: 'onSubmit'
-              }
+                type: "email",
+                message: "Please enter a valid email!",
+                validateTrigger: "onSubmit",
+              },
             ]}
           >
-            <Input 
-              prefix={<UserOutlined />} 
-              placeholder="Email" 
-              size="large"
-            />
+            <Input prefix={<UserOutlined />} placeholder="Email" size="large" />
           </Form.Item>
 
           <Form.Item
@@ -86,7 +96,7 @@ const Login = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input your password!',
+                message: "Please input your password!",
               },
             ]}
           >
@@ -109,13 +119,22 @@ const Login = () => {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" className="login-button" block size="large">
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="login-button"
+              block
+              size="large"
+            >
               Login
             </Button>
           </Form.Item>
 
           <div className="login-footer">
-            Don't have an account? <Link to="/signup" className="login-link">Sign up</Link>
+            Don't have an account?{" "}
+            <Link to="/signup" className="login-link">
+              Sign up
+            </Link>
           </div>
         </Form>
       </div>

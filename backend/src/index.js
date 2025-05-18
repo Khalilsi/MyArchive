@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/authRoutes');
@@ -6,6 +7,8 @@ const profileRoutes = require('./routes/profileRoutes');
 const requestRoutes = require('./routes/requestRoutes');
 const userRoutes = require('./routes/userRouter');
 const cors = require('cors');
+const archiveRoutes = require('./routes/archiveRoutes');
+const documentRoutes = require('./routes/documentRouter');
 
 dotenv.config();
 
@@ -34,6 +37,9 @@ app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/requests', requestRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/archives', archiveRoutes);
+app.use('/api/documents', documentRoutes);
+app.use('/uploads/documents', express.static(path.join(__dirname, 'uploads/documents')));
 
 // Start server
 app.listen(PORT, () => {
