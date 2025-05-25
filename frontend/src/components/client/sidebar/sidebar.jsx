@@ -1,10 +1,10 @@
 import React from 'react';
 import { Layout, Menu } from 'antd';
 import {
-  FileOutlined,
-  UploadOutlined,
-  FolderOutlined,
-  SettingOutlined,
+  FileFilled,
+  BankFilled,
+  FolderFilled,
+  SettingFilled,
   LogoutOutlined,
   HomeFilled
 } from '@ant-design/icons';
@@ -27,22 +27,22 @@ const Sidebar = ({ collapsed, onCollapse , onMenuClick }) => {
     },
     {
       key: 'archives',
-      icon: <FolderOutlined />,
+      icon: <FolderFilled />,
       label: 'Archives'
     },
     {
       key: 'documents',
-      icon: <FileOutlined />,
+      icon: <FileFilled />,
       label: 'Mes documents'
     },
     {
-      key: 'upload',
-      icon: <UploadOutlined />,
-      label: 'Ajouter un document'
+      key: 'CompanyInfo',
+      icon: <BankFilled />,
+      label: 'Mes informations'
     },
     {
       key: 'settings',
-      icon: <SettingOutlined />,
+      icon: <SettingFilled />,
       label: 'Paramètres'
     },
     {

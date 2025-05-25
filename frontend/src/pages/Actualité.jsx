@@ -1,62 +1,61 @@
 import React from "react";
-import { Card, Row, Col, Tag, Button, Breadcrumb } from "antd";
-import { PageHeader } from '@ant-design/pro-components';
+import { Button, Typography } from "antd";
+import "./Actualité.css";
+import Navbar from '../components/homepage/navbar/Navbar';
 
-const articles = [
-  {
-    title: "Lancement officiel de la plateforme MY archive",
-    description:
-      "Une nouvelle ère pour la gestion documentaire en Tunisie commence avec notre plateforme innovante.",
-    date: "18 Avril 2025",
-    categories: ["Mise à jour", "Tendances"],
-  },
-  // You can add more articles here
-];
+const { Title, Text } = Typography;
 
 const ActualitePage = () => {
   return (
-    <div style={{ padding: "24px" }}>
-      <Breadcrumb style={{ marginBottom: "16px" }}>
-        <Breadcrumb.Item>Accueil</Breadcrumb.Item>
-        <Breadcrumb.Item>Actualité</Breadcrumb.Item>
-      </Breadcrumb>
+    
+    <div className="actualite-page">
+      <Navbar />
+      {/* Hero Section */}
+      <div className="actualite-section">
+        <Title className="main-title">Actualité</Title>
+        <Text className="breadcrumb">Accueille - Actualité</Text>
+      </div>
 
-      <PageHeader
-        className="site-page-header"
-        title="Actualité"
-        subTitle="Consultez les dernières informations sur la plateforme"
-      />
+      {/* Description Section */}
+      <div className="description-container">
+        <Text>
+          Consultez les dernières actualités et informations sur la plate-forme et le domaine dés archives.
+        </Text>
+      </div>
 
-      <Row gutter={[24, 24]} style={{ marginTop: "24px" }}>
-        {articles.map((article, index) => (
-          <Col
-            key={index}
-            xs={24}
-            sm={24}
-            md={12}
-            lg={8}
-            xl={8}
-          >
-            <Card
-              title={article.title}
-              extra={<span style={{ fontSize: "12px", color: "gray" }}>{article.date}</span>}
-              style={{ height: "100%" }}
-            >
-              <div style={{ marginBottom: "12px" }}>
-                {article.categories.map((category, idx) => (
-                  <Tag color="blue" key={idx} style={{ marginBottom: "4px" }}>
-                    {category}
-                  </Tag>
-                ))}
-              </div>
-              <p>{article.description}</p>
-              <Button type="primary" size="small">
-                Voir l'article complet
+      {/* Category Buttons */}
+      <div className="category-buttons">
+        <Button type="primary" className="category-btn">
+          Mise à jour de la plateforme
+        </Button>
+        <Button type="primary" className="category-btn">
+          Legislation des archives
+        </Button>
+        <Button type="primary" className="category-btn">
+          Tendances
+        </Button>
+      </div>
+
+      {/* News Section */}
+      <div className="news-container">
+        <div className="news-item">
+          <div className="news-image">
+            <img src="./assets/actualitéImage.jpg" alt="Platform Launch" />
+          </div>
+          <div className="news-content">
+            <div className="news-text">
+              <Title level={4}>Lancement officiel de la plateforme MY archive :</Title>
+              <Text>une nouvelle ère pour la gestion documentaire en Tunisie</Text>
+            </div>
+            <div className="news-footer">
+              <Button type="primary" className="read-more-btn">
+                voir l'article complet
               </Button>
-            </Card>
-          </Col>
-        ))}
-      </Row>
+              <Text className="news-date">18 Avril 2025</Text>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

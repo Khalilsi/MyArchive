@@ -35,6 +35,10 @@ const userSchema = new mongoose.Schema(
       type: Number,
       default: 0, // Starts at 0MB
     },
+    company: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Company'
+    }
   },
   {
     timestamps: true,

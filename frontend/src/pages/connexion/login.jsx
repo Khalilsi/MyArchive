@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Form, Input, Button, Checkbox, message } from "antd";
+import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import "../style/login.css";
-import { useAuth } from "../../context/AuthContext"; // Import the AuthContext
+import { useAuth } from "../../context/AuthContext";
 
 const Login = () => {
-  const { login } = useAuth(); // Get the login function from AuthContext
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (values) => {
@@ -24,7 +26,6 @@ const Login = () => {
       if (response.data.success) {
         const { token, user } = response.data;
 
-        // Store token based on remember me preference
         if (values.remember) {
           localStorage.setItem("token", token);
           sessionStorage.removeItem("token");
@@ -33,31 +34,55 @@ const Login = () => {
           localStorage.removeItem("token");
         }
 
-        // Use the login function from AuthContext
         login(user, token);
 
-        message.success("Login successful!");
+        toast.success('Connexion réussie !', {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          
+        });
 
-        // Navigate based on user role
         if (user.role === "admin") {
           navigate("/admin/users");
         } else if (user.role === "user") {
           navigate("/client/dashboard");
         }
-      } else {
-        message.error("Login failed");
       }
     } catch (error) {
-      console.error("Login error:", error.response?.data?.msg || error.message);
-      message.error(
-        error.response?.data?.msg ||
-          "Login failed! Please check your credentials."
-      );
+      toast.error((error.response?.status === 401
+        ? "Email ou mot de passe incorrect"
+        : "Erreur lors de la connexion. Veuillez réessayer."), {
+        position: "bottom-left",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
   return (
     <div className="login-container">
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       <div className="login-background">
         <div className="background-overlay">
           {/* <h1 className="background-title">Welcome to MyArchive</h1>

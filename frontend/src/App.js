@@ -18,6 +18,9 @@ import UserDashboard from "./pages/client/UserDashbored.jsx";
 import Archives from "./components/client/Mes archives/Archives.jsx";
 import ClientLayout from "./components/client/clientLayout.jsx";
 import Documents from "./components/client/Mes documents/Documents.jsx";
+import CompanyInfo from "./components/client/Mes Infomations/Company.jsx";
+import SecuritySettings from "./components/client/Settings/SecuritySettings.jsx";
+
 function App() {
   return (
     <AuthProvider>
@@ -76,6 +79,27 @@ function App() {
               <ProtectedRoute>
                 <ClientLayout>
                   <Documents />
+                </ClientLayout>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/client/CompanyInfo"
+            element={
+              <ProtectedRoute>
+                <ClientLayout>
+                  <CompanyInfo />
+                </ClientLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/client/settings"
+            element={
+              <ProtectedRoute>
+                <ClientLayout>
+                  < SecuritySettings/>
                 </ClientLayout>
               </ProtectedRoute>
             }

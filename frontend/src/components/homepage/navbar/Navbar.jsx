@@ -35,9 +35,9 @@ const Navbar = () => {
             className="navbar-item dropdown" 
             style={{cursor: 'pointer'}}
           >
-            <div className="navbar-link">
-              actualité
-            </div>
+            <Link to="/actualite" className="navbar-link" onClick={() => setIsMobileMenuOpen(false)}>
+              Actualité
+            </Link>
           </li>
           <li className="navbar-item">
             <Link to="/about" className="navbar-link" onClick={() => setIsMobileMenuOpen(false)}>

@@ -14,7 +14,7 @@ const ClientLayout = ({ children }) => {
   const { logout } = useAuth();
 
   const handleMenuClick = ({ key }) => {
-    const implementedRoutes = ['dashboard', 'logout', 'archives',"documents"];
+    const implementedRoutes = ['dashboard', 'logout', 'archives',"documents", 'CompanyInfo' , 'settings'];
     
     if (key === 'logout') {
       try {

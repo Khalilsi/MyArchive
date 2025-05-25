@@ -1,6 +1,6 @@
 const transporter = require("../config/emailconfig.js");
 
-exports.sendApprovalEmail = async (email, tempPassword) => {
+exports.sendApprovalEmail = async (email, tempPassword , username) => {
   if (!email || !tempPassword) {
     throw new Error("Missing required parameters: email, tempPassword");
   }

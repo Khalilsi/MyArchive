@@ -106,7 +106,7 @@ const RequestForm = () => {
           centered
           width={600}
           maskStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}
-          bodyStyle={{ padding: '48px 24px' }}
+          bodyStyle={{ padding: '4px' }}
         >
         <Result
           status="success"
@@ -243,10 +243,11 @@ const RequestForm = () => {
                 <div className="selected-archives">
                   {selectedArchives.map((type) => (
                     <Tag
+                      color="blue"
                       key={type}
                       closable
                       onClose={() => removeArchiveType(type)}
-                      style={{ margin: "4px" }}
+                      style={{ margin: "4px" , padding: "6px" }}
                     >
                       {type}
                     </Tag>
@@ -292,6 +293,7 @@ const RequestForm = () => {
 
           <Form.Item>
             <Button
+              size="large"
               type="primary"
               htmlType="submit"
               className="submit-btn"

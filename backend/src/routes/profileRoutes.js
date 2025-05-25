@@ -15,6 +15,8 @@ router.put(
   ],
   profileController.updateProfile
 );
+router.post('/change-password', authMiddleware.authenticate, profileController.changePassword);
+router.get('/connection-history', authMiddleware.authenticate, profileController.getConnectionHistory);
 
 module.exports = router;
  
