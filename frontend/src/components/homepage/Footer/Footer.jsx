@@ -1,83 +1,43 @@
 import React from "react";
 import "./Footer.css";
-import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaLinkedin, FaMapMarkerAlt, FaPhoneAlt, FaEnvelope } from "react-icons/fa";
 
 const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer-container">
-        {/* Column 1: Logo and Description */}
+        {/* À propos de la plateforme */}
         <div className="footer-column">
-          <h3 className="footer-logo">MyArchive</h3>
+          <h3 className="footer-logo">MY archive</h3>
           <p className="footer-description">
-            My Archive est une plateforme innovante de digitalisation des
-            archives conçue pour répondre aux besoins spécifiques des
-            entreprises et institutions tunisiennes, tout en surpassant les
-            solutions existantes sur le marché. Notre dévouement et attention
-            aux détails font toute la différence dans votre gestion des
-            archives.
+            À propos de la plateforme<br />
+            Notre plateforme de numérisation d’archives offre aux entreprises tunisiennes une solution simple, rapide et sécurisée pour organiser, stocker et accéder à leurs documents en ligne. Pensée pour répondre aux besoins du marché local, elle allie performance, confidentialité et accompagnement personnalisé.
           </p>
-          <div className="social-icons">
-            <a href="#">
-              <FaFacebook />
-            </a>
-            <a href="#">
-              <FaTwitter />
-            </a>
-            <a href="#">
-              <FaLinkedin />
-            </a>
-          </div>
         </div>
 
-        {/* Column 2: Quick Links */}
+        {/* Informations de contact */}
         <div className="footer-column">
-          <h4 className="footer-title">Liens Rapides</h4>
-          <ul className="footer-links">
-            <li>
-              <a href="#">Accueil</a>
-            </li>
-            <li>
-              <a href="#">Solutions</a>
-            </li>
-            <li>
-              <a href="#">Technologies</a>
-            </li>
-            <li>
-              <a href="#">Témoignages</a>
-            </li>
-            <li>
-              <a href="#">Contact</a>
-            </li>
-          </ul>
-        </div>
-
-        {/* Column 3: Contact Info */}
-        <div className="footer-column">
-          <h4 className="footer-title">Nous Contacter</h4>
+          <h4 className="footer-title">Informations de contact</h4>
           <ul className="footer-contact">
-            <li>Boulevard, Tunisie</li>
-            <li>info@myarchive.in</li>
-            <li>(+216) 55 555 555</li>
+            <li><FaMapMarkerAlt style={{ marginRight: "8px" }} /> cité riadh - sousse</li>
+            <li><FaPhoneAlt style={{ marginRight: "8px" }} /> +216 20 851 553</li>
+            <li><FaEnvelope style={{ marginRight: "8px" }} /> @myarchivedigitale.com</li>
           </ul>
         </div>
 
-        {/* Column 4: Newsletter */}
-        {/* <div className="footer-column">
-          <h4 className="footer-title">Newsletter</h4>
-          <p>Abonnez-vous pour recevoir nos dernières actualités</p>
-          <form className="newsletter-form">
-            <input type="email" placeholder="Votre Email" />
-            <button type="submit">S'abonner</button>
-          </form>
-        </div> */}
+        {/* Suivez-nous */}
+        <div className="footer-column">
+          <h4 className="footer-title">Suivez-nous</h4>
+          <ul className="footer-contact">
+            <li><FaLinkedin style={{ marginRight: "8px" }} /> MY archive</li>
+            <li><FaInstagram style={{ marginRight: "8px" }} /> @myarchivedigitale</li>
+            <li><FaFacebook style={{ marginRight: "8px" }} /> MY archive</li>
+          </ul>
+        </div>
       </div>
 
-      {/* Copyright */}
       <div className="copyright">
-        <p>
-          &copy; {new Date().getFullYear()} MyArchive. Tous droits réservés.
-        </p>
+        <p>&copy; {new Date().getFullYear()} MY archive. Tous droits réservés.</p>
       </div>
     </footer>
   );

@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Document as PDFViewer, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
+import { renderAsync } from "docx-preview";
 import {
   Layout,
   Typography,
@@ -54,6 +55,7 @@ const Documents = () => {
   const [isUploadModalVisible, setIsUploadModalVisible] = useState(false);
   const [archives, setArchives] = useState([]);
   const [form] = Form.useForm();
+  const wordContainerRef = useRef(null);
   const MIN_SCALE = 0.5;
   const MAX_SCALE = 2;
 
@@ -141,7 +143,7 @@ const Documents = () => {
 
   const handleUpload = async (values) => {
     try {
-      console.log('Form values:', values); // Debug log
+      console.log("Form values:", values); // Debug log
 
       // Check if file exists and is properly structured
       if (!values.file || !values.file[0]) {
@@ -153,17 +155,18 @@ const Documents = () => {
       formData.append("name", values.name);
       formData.append("category", values.category || "");
       formData.append("archiveId", values.archive);
-      
+
       // Check if we have the file object
       const file = values.file[0].originFileObj || values.file[0];
       formData.append("file", file);
 
       // Debug log to see what's being sent
-      console.log('Archive ID:', values.archive);
-      console.log('File:', file);
+      console.log("Archive ID:", values.archive);
+      console.log("File:", file);
 
-      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-      
+      const token =
+        localStorage.getItem("token") || sessionStorage.getItem("token");
+
       // Add error handling for missing token
       if (!token) {
         message.error("Session expirée, veuillez vous reconnecter");
@@ -307,6 +310,28 @@ const Documents = () => {
       ),
     },
   ];
+
+  const handleWordPreview = async (url) => {
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      if (wordContainerRef.current) {
+        await renderAsync(blob, wordContainerRef.current);
+      }
+    } catch (error) {
+      message.error("Erreur lors du chargement du document Word");
+    }
+  };
+
+  useEffect(() => {
+    if (
+      isPreviewOpen &&
+      selectedDocument?.type ===
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    ) {
+      handleWordPreview(selectedDocument.filePath);
+    }
+  }, [isPreviewOpen, selectedDocument]);
 
   return (
     <Content style={{ margin: "24px 16px" }}>
@@ -579,6 +604,20 @@ const Documents = () => {
                     }}
                   />
                 </div>
+              ) : selectedDocument.type ===
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ? (
+                <div
+                  style={{
+                    backgroundColor: "white",
+                    padding: "20px",
+                    borderRadius: "4px",
+                    width: "100%",
+                    height: "calc(90vh - 150px)",
+                    overflow: "auto",
+                  }}
+                >
+                  <div ref={wordContainerRef} style={{ minHeight: "100%" }} />
+                </div>
               ) : (
                 <div
                   style={{
@@ -586,7 +625,6 @@ const Documents = () => {
                     padding: "40px",
                     backgroundColor: "white",
                     borderRadius: "4px",
-                    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
                   }}
                 >
                   Ce type de document ne peut pas être prévisualisé. Veuillez le
@@ -608,9 +646,9 @@ const Documents = () => {
         }}
         footer={null}
       >
-        <Form 
-          form={form} 
-          layout="vertical" 
+        <Form
+          form={form}
+          layout="vertical"
           onFinish={handleUpload}
           encType="multipart/form-data"
         >

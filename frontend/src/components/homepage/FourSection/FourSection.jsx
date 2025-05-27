@@ -1,53 +1,58 @@
 import React from 'react';
-import './FourSection.css'; // Custom CSS for the section
+import { Card, Row, Col } from 'antd';
+import { 
+  FileDoneOutlined, 
+  TeamOutlined, 
+  DatabaseOutlined, 
+  LikeOutlined, 
+  ClockCircleOutlined 
+} from '@ant-design/icons';
+import './FourSection.css';
 
 const FourthSection = () => {
+  const stats = [
+    { 
+      number: "+ 1 000", 
+      label: "documents archivés",
+      icon: <FileDoneOutlined className="stat-icon" />
+    },
+    { 
+      number: "+ 15", 
+      label: "clients",
+      icon: <TeamOutlined className="stat-icon" />
+    },
+    { 
+      number: "2.5 GO", 
+      label: "de données stocké",
+      icon: <DatabaseOutlined className="stat-icon" />
+    },
+    { 
+      number: "95%", 
+      label: "clients satisfaits",
+      icon: <LikeOutlined className="stat-icon" />
+    },
+    { 
+      number: "24/7", 
+      label: "Disponible",
+      icon: <ClockCircleOutlined className="stat-icon" />
+    }
+  ];
+
   return (
     <section className="fourth-section">
       <div className="fourth-section-container">
-        <h2 className="section-title">Nos Clients Satisfaits</h2>
-        <p className="sous-title">Découvrez comment nous transformons les processus d'archivage</p>
-        <div className="cards-container">
-          {/* Card 1 */}
-          <div className="card">
-            <img
-              src="./assets/avatars/client1.jpg" // Replace with your image
-              alt="Client 1"
-              className="client-avatar"
-            />
-            <p className="client-name">- John Doe</p>
-            <p className="client-comment">
-              "ArchivaTunisia 2.0 has transformed the way we manage our documents. The platform is intuitive, secure, and incredibly efficient."
-            </p>
-            
-          </div>
-
-          {/* Card 2 */}
-          <div className="card">
-            <img
-              src="./assets/avatars/client2.jpg" // Replace with your image
-              alt="Client 2"
-              className="client-avatar"
-            />
-            <p className="client-name">- Jane Smith</p>
-            <p className="client-comment">
-              "The AI-powered search and blockchain security features are game-changers. We couldn't be happier with the results!"
-            </p>
-            
-          </div>
-
-          {/* Card 3 */}
-          <div className="card">
-            <img
-              src="./assets/avatars/client3.jpg" // Replace with your image
-              alt="Client 3"
-              className="client-avatar"
-            />
-            <p className="client-name">- Michael Brown</p>
-            <p className="client-comment">
-              "The support team is fantastic, and the platform is incredibly user-friendly. Highly recommend ArchivaTunisia 2.0!"
-            </p>
-          </div>
+        {/* <h2 className="section-title">Nos Réalisations</h2>
+        <p className="sous-title">Chiffres clés de notre plateforme</p> */}   
+        <div className="stats-container">
+          {stats.map((stat, index) => (
+            <div className="stat-card" key={index}>
+              <div className="stat-icon-container">
+                {stat.icon}
+              </div>
+              <div className="stat-number">{stat.number}</div>
+              <div className="stat-label">{stat.label}</div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

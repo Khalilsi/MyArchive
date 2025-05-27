@@ -132,7 +132,7 @@ const Login = () => {
             />
           </Form.Item>
 
-          <Form.Item>
+          {/* <Form.Item>
             <div className="remember-forgot">
               <Form.Item name="remember" valuePropName="checked" noStyle>
                 <Checkbox>Remember me</Checkbox>
@@ -141,7 +141,7 @@ const Login = () => {
                 Forgot password?
               </Link>
             </div>
-          </Form.Item>
+          </Form.Item> */}
 
           <Form.Item>
             <Button
@@ -156,10 +156,10 @@ const Login = () => {
           </Form.Item>
 
           <div className="login-footer">
-            Don't have an account?{" "}
-            <Link to="/signup" className="login-link">
-              Sign up
-            </Link>
+            Si tu n'avais pas de compte ?Tu peux faire une{" "}
+             <Link to="/demande" className="login-link">
+              Demande
+            </Link> 
           </div>
         </Form>
       </div>

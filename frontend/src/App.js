@@ -20,17 +20,24 @@ import ClientLayout from "./components/client/clientLayout.jsx";
 import Documents from "./components/client/Mes documents/Documents.jsx";
 import CompanyInfo from "./components/client/Mes Infomations/Company.jsx";
 import SecuritySettings from "./components/client/Settings/SecuritySettings.jsx";
+import AboutPage from "./pages/AboutUs.jsx";
+import FAQPage from "./pages/FAQ.jsx";
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
     <AuthProvider>
       <Router>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+          {/* <Route path="/signup" element={<Signup />} /> */}
           <Route path="/demande" element={<RequestForm />} />
           <Route path="/actualite" element={<ActualitePage />} />
+          <Route path="/à propos nous" element={<AboutPage />} />
+          <Route path="/FAQ" element={<FAQPage />} />
+
 
           {/* Protected Admin Routes */}
           <Route

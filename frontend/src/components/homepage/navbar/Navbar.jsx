@@ -40,18 +40,18 @@ const Navbar = () => {
             </Link>
           </li>
           <li className="navbar-item">
-            <Link to="/about" className="navbar-link" onClick={() => setIsMobileMenuOpen(false)}>
-              à propos nous
+            <Link to="/à propos nous" className="navbar-link" onClick={() => setIsMobileMenuOpen(false)}>
+              À Propos Nous
             </Link>
           </li>
           <li className="navbar-item">
-            <Link to="/features" className="navbar-link" onClick={() => setIsMobileMenuOpen(false)}>
+            <Link to="/FAQ" className="navbar-link" onClick={() => setIsMobileMenuOpen(false)}>
               FAQ
             </Link>
           </li>
           
           {/* Mobile Auth Buttons */}
-          <div className="mobile-auth">
+          {/* <div className="mobile-auth">
             <Link 
               to="/login" 
               className="auth-button secondary"
@@ -66,7 +66,7 @@ const Navbar = () => {
             >
               Sign Up
             </Link>
-          </div>
+          </div> */}
         </ul>
 
         {/* Desktop Auth Buttons */}

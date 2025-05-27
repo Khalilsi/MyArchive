@@ -1,6 +1,7 @@
 const Document = require("../models/documentModel");
 const Archive = require("../models/archiveModel");
 const User = require("../models/userModel");
+const Forfait = require("../models/forfaitModel");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
@@ -73,7 +74,6 @@ const getFileUrl = (fileName) => {
 // Modified upload document controller
 exports.uploadDocument = async (req, res) => {
   try {
-    // Authentication check
     if (!req.user?.id) {
       return res.status(401).json({
         success: false,
@@ -82,6 +82,13 @@ exports.uploadDocument = async (req, res) => {
     }
 
     upload(req, res, async (err) => {
+      // Function to clean up uploaded file if something goes wrong
+      const cleanupFile = () => {
+        if (req.file && fs.existsSync(req.file.path)) {
+          fs.unlinkSync(req.file.path);
+        }
+      };
+
       try {
         if (err instanceof multer.MulterError) {
           return res.status(400).json({
@@ -102,38 +109,31 @@ exports.uploadDocument = async (req, res) => {
           });
         }
 
-        const { name, category, archiveId } = req.body; // Removed type from destructuring
+        const { name, category, archiveId } = req.body;
         const userId = req.user.id;
 
-        // Input validation - removed type check
         if (!name || !archiveId) {
-          fs.unlinkSync(req.file.path);
+          cleanupFile();
           return res.status(400).json({
             success: false,
             msg: "Name and archive ID are required",
           });
         }
 
-        // Get file type and display type automatically
-        const fileType = req.file.mimetype;
-        const displayType = getMimeTypeDisplay(fileType);
-
-        // Check archive ownership
-        const archive = await Archive.findOne({ _id: archiveId, user: userId });
-        if (!archive) {
-          fs.unlinkSync(req.file.path);
-          return res.status(404).json({
+        // Check user and forfait first
+        const user = await User.findById(userId).populate("forfait");
+        if (!user.forfait) {
+          cleanupFile();
+          return res.status(400).json({
             success: false,
-            msg: "Archive not found or unauthorized",
+            msg: "User has no storage plan assigned",
           });
         }
 
-        const fileSizeMB = req.file.size / (1024 * 1024);
-
         // Check storage limit
-        const user = await User.findById(userId).populate("forfait");
+        const fileSizeMB = req.file.size / (1024 * 1024);
         if (user.usedStorage + fileSizeMB > user.forfait.maxStorage) {
-          fs.unlinkSync(req.file.path);
+          cleanupFile();
           return res.status(400).json({
             success: false,
             msg: `Storage limit exceeded (${user.usedStorage.toFixed(2)}MB/${
@@ -142,11 +142,23 @@ exports.uploadDocument = async (req, res) => {
           });
         }
 
-        // Create document record with automatic type detection
+        // Check archive ownership
+        const archive = await Archive.findOne({ _id: archiveId, user: userId });
+        if (!archive) {
+          cleanupFile();
+          return res.status(404).json({
+            success: false,
+            msg: "Archive not found or unauthorized",
+          });
+        }
+
+        const fileType = req.file.mimetype;
+        const displayType = getMimeTypeDisplay(fileType);
+
         const document = new Document({
           name,
           type: fileType,
-          displayType, // Add displayType field
+          displayType,
           category,
           size: fileSizeMB,
           filePath: req.file.path,
@@ -157,19 +169,20 @@ exports.uploadDocument = async (req, res) => {
 
         const savedDocument = await document.save();
 
-        // Update storage usage
+        // Update user's storage usage
         await User.findByIdAndUpdate(userId, {
           $inc: { usedStorage: fileSizeMB },
         });
 
         res.status(201).json({
           success: true,
-          data: savedDocument,
+          data: {
+            ...savedDocument.toObject(),
+            filePath: getFileUrl(path.basename(savedDocument.filePath)),
+          },
         });
       } catch (error) {
-        if (req.file) {
-          fs.unlinkSync(req.file.path);
-        }
+        cleanupFile();
         throw error;
       }
     });

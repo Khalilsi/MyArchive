@@ -1,7 +1,8 @@
 import React from "react";
 import { Button, Typography } from "antd";
-import "./Actualité.css";
+import "./style/Actualité.css";
 import Navbar from '../components/homepage/navbar/Navbar';
+import Footer from "../components/homepage/Footer/Footer";
 
 const { Title, Text } = Typography;
 
@@ -14,13 +15,14 @@ const ActualitePage = () => {
       <div className="actualite-section">
         <Title className="main-title">Actualité</Title>
         <Text className="breadcrumb">Accueille - Actualité</Text>
+
       </div>
 
       {/* Description Section */}
       <div className="description-container">
-        <Text>
+        <Title level={3}>
           Consultez les dernières actualités et informations sur la plate-forme et le domaine dés archives.
-        </Text>
+        </Title>
       </div>
 
       {/* Category Buttons */}
@@ -56,7 +58,9 @@ const ActualitePage = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
+    
   );
 };
 

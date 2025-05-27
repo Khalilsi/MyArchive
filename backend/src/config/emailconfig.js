@@ -13,8 +13,8 @@ var transporter = nodemailer.createTransport({
       pass: "f47cc41db0df25"
   
     }
-  
-  });
+   
+  }); 
 
   transporter.verify(function(error, success) {
     if (error) {

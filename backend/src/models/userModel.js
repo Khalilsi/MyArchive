@@ -28,8 +28,7 @@ const userSchema = new mongoose.Schema(
     forfait: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Forfait",
-      required: true,
-      default: "65d1a8b0e4b1f1f4c8e3d3a1", // Default: Free plan (set a real Forfait _id)
+      default: null // Default forfait ID, replace with your actual default forfait ID
     },
     usedStorage: {
       type: Number,

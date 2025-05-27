@@ -26,13 +26,13 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 4rem;
-  max-width: 600px;
+  padding: 5rem;
+  max-width: 650px;
   margin: 0 auto;
 }
 
 .login-title {
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   text-align: center;
 }
 
@@ -44,7 +44,7 @@
 
 .login-footer {
   text-align: center;
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 
 @media (min-width: 768px) {

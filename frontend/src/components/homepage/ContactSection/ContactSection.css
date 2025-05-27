@@ -1,169 +1,158 @@
 /* ContactSection.css */
 .contact-section {
-    padding: 4rem 2rem;
-    background: #fff;
+  padding: 4rem 2rem;
+  background: #e2eff6;
+}
+
+.contact-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.contact-title {
+  font-size: 2.5rem;
+  color: #054fd7;
+  margin-bottom: 2rem;
+}
+
+.testimonials-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+
+.testimonial-card {
+  flex: 1 1 calc(33.33% - 2rem);
+  background: #fff;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+}
+
+.testimonial-quote {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+}
+
+.testimonial-author {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.testimonial-rating {
+  color: #ffc107;
+  font-size: 1.2rem;
+}
+
+.add-testimonial {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.add-testimonial h3 {
+  font-size: 1.5rem;
+  color: #054fd7;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.form-group textarea,
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.rating-input {
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.submit-button {
+  background: #054fd7;
+  color: white;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  height: auto;
+  border-radius: 5px;
+  margin-top: 1rem;
+}
+
+.submit-button:hover {
+  background: #043a9e;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+  .testimonial-card {
+    flex: 1 1 calc(50% - 2rem);
   }
-  
-  .contact-container {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .contact-title {
-    font-size: 2.5rem;
-    color: #054fd7;
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-  
-  .contact-content {
-    display: flex;
-    gap: 3rem;
-  }
-  
-  .contact-info {
-    flex: 1;
-    padding: 1rem;
-  }
-  
-  .contact-info h3 {
-    font-size: 1.7rem;
-    color: #333;
-    margin-bottom: 0.8rem;
-    font-weight: bolder;
-  }
-  
-  .contact-info a {
-    font-size: 1.2rem;
-    color: #666;
-    margin-bottom: 1.5rem;
-  }
-  .contact-icon {
-    font-size: 1.6rem;
-    color: #4f46e5; /* or your preferred color */
-    margin-right: 0.5rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .contact-form {
-    flex: 1;
-    padding: 1rem;
+}
+
+@media (max-width: 768px) {
+  .testimonial-card {
+    flex: 1 1 100%;
+    max-width: 400px;
   }
   
   .form-row {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1rem;
+    flex-direction: column;
+    gap: 0;
   }
-  
-  .form-group {
-    flex: 1;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: #333;
-    font-weight: 500;
-  }
-  
-  .form-group input,
-  .form-group textarea {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1rem;
-  }
-  
-  .form-group textarea {
-    resize: vertical;
-  }
-  
-  .submit-button {
-    background: #054fd7;
-    color: white;
-    padding: 1rem 2rem;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 1rem;
-    transition: background 0.3s;
-  }
-  
-  .submit-button:hover {
-    background: #043a9e;
-  }
-  
-  /* Responsive Styles */
-/* ContactSection.css - Mobile Stack Layout */
+}
+
 @media (max-width: 480px) {
   .contact-section {
     padding: 2rem 1rem;
   }
-
+  
   .contact-title {
     font-size: 1.8rem;
-    margin-bottom: 1.5rem;
   }
-
-  .contact-content {
-    display: block; /* Stack all children */
+  
+  .testimonial-card {
+    padding: 1.5rem;
   }
-
-  .contact-info {
-    margin-bottom: 2rem;
-    padding: 0;
-  }
-
-  .contact-info h3 {
-    font-size: 1.3rem;
-  }
-
-  .contact-info a {
-    align-items: center;
-    font-size: 1rem;
-    color: #666;
-    margin-bottom: 1rem;
-    text-decoration: none;
-  }
-
-  .contact-icon {
-    font-size: 1.1rem;
-    margin-bottom: 0.3rem;
-    color: #054fd7;
-  }
-
-  .contact-form {
-    padding: 0;
-  }
-
-  .form-row {
-    flex-direction: column;
-    gap: 0;
-    margin-bottom: 0;
-  }
-
-  .form-group {
-    margin-bottom: 1rem;
-  }
-
-  .form-group label {
-    font-size: 0.95rem;
-  }
-
-  .form-group input,
-  .form-group textarea {
-    padding: 0.7rem;
-    font-size: 0.95rem;
-  }
-
-  .submit-button {
-    padding: 0.9rem;
-    font-size: 1rem;
-    margin-top: 0.5rem;
+  
+  .add-testimonial {
+    padding: 1.5rem;
   }
 }
