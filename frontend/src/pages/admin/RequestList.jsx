@@ -249,7 +249,7 @@ const RequestList = () => {
   ];
 
   return (
-    <div style={{ padding: "80px" }}>
+    <div style={{ padding: "24px", maxWidth: "100%", overflowX: "auto" }}>
       <Card>
         <Title level={3}>Requests Management</Title>
         <Divider />
@@ -283,31 +283,32 @@ const RequestList = () => {
             spinning: loading,
             indicator: <LoadingOutlined style={{ fontSize: 24 }} spin />,
           }}
-          style={{ background: '#fff' }}
-          rowClassName={(record, index) => (index % 2 === 0 ? 'light-row' : '')}
+          scroll={{ x: "max-content" }}
+          style={{ background: "#fff" }}
+          rowClassName={(record, index) => (index % 2 === 0 ? "light-row" : "")}
           components={{
             header: {
               cell: ({ children, ...restProps }) => (
                 <th
                   {...restProps}
                   style={{
-                    background: 'gray',
-                    color: 'white',
-                    fontWeight: 'bold'
+                    background: "gray",
+                    color: "white",
+                    fontWeight: "bold",
                   }}
                 >
                   {children}
                 </th>
-              )
+              ),
             },
             body: {
               row: ({ children, ...restProps }) => (
                 <tr
                   {...restProps}
                   style={{
-                    '&:hover': {
-                      backgroundColor: '#e6f7ff'
-                    }
+                    "&:hover": {
+                      backgroundColor: "#e6f7ff",
+                    },
                   }}
                 >
                   {children}
@@ -317,18 +318,19 @@ const RequestList = () => {
                 <td
                   {...restProps}
                   style={{
-                    backgroundColor: restProps.index % 2 === 0 ? '#fafafa' : '#fff'
+                    backgroundColor:
+                      restProps.index % 2 === 0 ? "#fafafa" : "#fff",
                   }}
                 >
                   {children}
                 </td>
-              )
-            }
+              ),
+            },
           }}
           onRow={(record) => ({
             style: {
-              cursor: 'pointer'
-            }
+              cursor: "pointer",
+            },
           })}
           // expandable={{
           //   expandedRowRender: (record) => (
@@ -383,18 +385,14 @@ const RequestList = () => {
             onClick={() => updateForm.submit()}
           >
             Update
-          </Button>
+          </Button>,
         ]}
       >
-        <Form
-          form={updateForm}
-          layout="vertical"
-          onFinish={handleStatusUpdate}
-        >
+        <Form form={updateForm} layout="vertical" onFinish={handleStatusUpdate}>
           <Form.Item
             name="status"
             label="Status"
-            rules={[{ required: true, message: 'Please select a status' }]}
+            rules={[{ required: true, message: "Please select a status" }]}
           >
             <Select>
               <Select.Option value="waiting">Waiting</Select.Option>
@@ -403,10 +401,7 @@ const RequestList = () => {
             </Select>
           </Form.Item>
 
-          <Form.Item
-            name="adminNotes"
-            label="Admin Notes"
-          >
+          <Form.Item name="adminNotes" label="Admin Notes">
             <Input.TextArea rows={4} />
           </Form.Item>
         </Form>

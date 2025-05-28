@@ -9,7 +9,10 @@ const userRoutes = require('./routes/userRouter');
 const cors = require('cors');
 const archiveRoutes = require('./routes/archiveRoutes');
 const documentRoutes = require('./routes/documentRouter');
-const seedForfaits = require('./seeds/forfaitSeed');
+// const seedForfaits = require('./seeds/forfaitSeed');
+const supportRoutes = require('./routes/supportRoutes');
+const forfaitRoutes = require('./routes/forfaitRouter');
+
 
 dotenv.config();
 
@@ -17,7 +20,7 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 app.use(cors({
-    origin: 'http://localhost:3000', // Vite's default port
+    origin: 'http://localhost:3000', 
     credentials: true
 }));
 
@@ -44,8 +47,10 @@ app.use('/api/users', userRoutes);
 app.use('/api/archives', archiveRoutes);
 app.use('/api/documents', documentRoutes);
 app.use('/uploads/documents', express.static(path.join(__dirname, 'uploads/documents')));
+app.use('/api/support', supportRoutes);
+app.use('/api/forfaits', forfaitRoutes);
 
 // Start server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
-}); 
+});  

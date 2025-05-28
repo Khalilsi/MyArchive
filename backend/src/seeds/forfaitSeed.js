@@ -3,19 +3,19 @@ const Forfait = require("../models/forfaitModel");
 
 const forfaits = [
   {
-    name: "Free",
+    name: "Freemium ",
     maxStorage: 100, // 100MB
-    description: "Basic storage plan with 100MB",
+    price : 150, 
   },
   {
     name: "Premium",
     maxStorage: 1024, // 1GB
-    description: "Premium storage plan with 1GB",
+    price: 250, 
   },
   {
-    name: "Enterprise",
+    name: "Corporate",
     maxStorage: 5120, // 5GB
-    description: "Enterprise storage plan with 5GB",
+    price: 500, 
   },
 ];
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Form,
   Input,
@@ -11,10 +11,14 @@ import {
   Col,
   Row,
   Result,
-  Modal
+  Modal,
+  Typography,
+  Spin,
 } from "antd";
 import axios from "axios";
 import "../style/demande.css";
+
+const { Title, Paragraph } = Typography;
 
 const RequestForm = () => {
   const [form] = Form.useForm();
@@ -22,6 +26,22 @@ const RequestForm = () => {
   const [submitting, setSubmitting] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [forfaits, setForfaits] = useState([]);
+  const [loadingForfaits, setLoadingForfaits] = useState(true);
+
+  useEffect(() => {
+    const fetchForfaits = async () => {
+      try {
+        const res = await axios.get("http://localhost:4000/api/forfaits");
+        setForfaits(res.data.data);
+      } catch (err) {
+        message.error("Échec de chargement des forfaits");
+      } finally {
+        setLoadingForfaits(false);
+      }
+    };
+    fetchForfaits();
+  }, []);
 
   const sectors = [
     "Technologie",
@@ -38,7 +58,6 @@ const RequestForm = () => {
     "Documents légaux",
     "Correspondance",
   ];
-  const packages = ["Standard", "Premium", "Entreprise"];
 
   const handleArchiveTypeChange = (value) => {
     if (value && !selectedArchives.includes(value)) {
@@ -55,9 +74,9 @@ const RequestForm = () => {
     form.setFieldsValue({ archiveTypes: newArchives });
   };
 
-  const handlePackageSelect = (pkg) => {
-    setSelectedPackage(pkg);
-    form.setFieldsValue({ package: pkg });
+  const handlePackageSelect = (pkgId) => {
+    setSelectedPackage(pkgId);
+    form.setFieldsValue({ package: pkgId });
   };
 
   const onFinish = async (values) => {
@@ -96,11 +115,12 @@ const RequestForm = () => {
       setSubmitting(false);
     }
   };
+
   if (isSuccess) {
     return (
       <div className="request-container">
         <Modal
-          visible={isSuccess}
+          open={isSuccess}
           footer={null}
           closable={false}
           centered
@@ -243,11 +263,12 @@ const RequestForm = () => {
                 <div className="selected-archives">
                   {selectedArchives.map((type) => (
                     <Tag
+                      
                       color="blue"
                       key={type}
                       closable
                       onClose={() => removeArchiveType(type)}
-                      style={{ margin: "4px" , padding: "6px" }}
+                      style={{ margin: "8px", padding: "6px" }}
                     >
                       {type}
                     </Tag>
@@ -265,30 +286,29 @@ const RequestForm = () => {
             ]}
             className="packages-row"
           >
-            <Row gutter={[16, 16]} justify="space-around">
-              {packages.map((pkg) => (
-                <Col key={pkg} xs={24} sm={12} md={8}>
-                  <Card
-                    className={`package-card ${
-                      selectedPackage === pkg ? "selected" : ""
-                    }`}
-                    onClick={() => handlePackageSelect(pkg)}
-                    hoverable
-                  >
-                    <div className="package-card-content">
-                      <Radio
-                        checked={selectedPackage === pkg}
-                        style={{ display: "none" }}
-                      />
-                      <h3>{pkg}</h3>
-                      <div className="package-details">
-                        {/* Empty for now - will add content later */}
+            {loadingForfaits ? (
+              <Spin />
+            ) : (
+              <Row gutter={[16, 16]} justify="space-around">
+                {forfaits.map((forfait) => (
+                  <Col key={forfait._id} xs={24} sm={12} md={8}>
+                    <Card
+                      className={`package-card ${
+                        selectedPackage === forfait._id ? "selected" : ""
+                      }`}
+                      onClick={() => handlePackageSelect(forfait._id)}
+                      hoverable
+                    >
+                      <div className="package-card-content">
+                        <h3>{forfait.name}</h3>
+                        <Paragraph><strong>Prix:</strong> {forfait.price} TND</Paragraph>
+                        <Paragraph><strong>Stockage:</strong> {forfait.maxStorage} Mo</Paragraph>
                       </div>
-                    </div>
-                  </Card>
-                </Col>
-              ))}
-            </Row>
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+            )}
           </Form.Item>
 
           <Form.Item>
@@ -300,7 +320,7 @@ const RequestForm = () => {
               block
               loading={submitting}
             >
-              {submitting ? "Envoi en cours..." : "Envoyer"}
+              {submitting ? "Envoi en cours..." : "Envoyer ma demande"}
             </Button>
           </Form.Item>
         </Form>

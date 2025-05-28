@@ -5,13 +5,13 @@ const forfaitSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      enum: ["Free", "Premium", "Enterprise"], // Example plans
+      enum: ["Freemium ", "Premium", "Corporate"], // Example plans
     },
     maxStorage: {
       type: Number, // Storage in MB (e.g., 100MB for Free)
       required: true,
     },
-    description: String, // Optional (e.g., "100MB storage")
+    price: { type: Number, required: true }, 
   },
   { timestamps: true }
 );

@@ -291,13 +291,13 @@ const Documents = () => {
               onClick={() => handlePreview(record)}
             />
           </Tooltip>
-          <Tooltip title="Télécharger">
+          {/* <Tooltip title="Télécharger">
             <Button
               type="primary"
               icon={<DownloadOutlined />}
               onClick={() => window.open(record.filePath)}
             />
-          </Tooltip>
+          </Tooltip> */}
           <Tooltip title="Supprimer">
             <Button
               type="primary"

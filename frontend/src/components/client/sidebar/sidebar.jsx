@@ -6,7 +6,8 @@ import {
   FolderFilled,
   SettingFilled,
   LogoutOutlined,
-  HomeFilled
+  HomeFilled,
+  QuestionCircleFilled
 } from '@ant-design/icons';
 import { useLocation } from 'react-router-dom';
 
@@ -15,8 +16,6 @@ const { Sider } = Layout;
 const Sidebar = ({ collapsed, onCollapse , onMenuClick }) => {
   const location = useLocation();
   const currentPath = location.pathname.split('/').pop(); // Gets the last part of the path
-
-
 
 
   const menuItems = [
@@ -41,6 +40,11 @@ const Sidebar = ({ collapsed, onCollapse , onMenuClick }) => {
       label: 'Mes informations'
     },
     {
+      key: 'Support',
+      icon: <QuestionCircleFilled />,
+      label: 'Support / Assistance'
+    },
+    {
       key: 'settings',
       icon: <SettingFilled />,
       label: 'Paramètres'
@@ -57,6 +61,7 @@ const Sidebar = ({ collapsed, onCollapse , onMenuClick }) => {
       <Menu
         theme="dark"
         defaultSelectedKeys={[currentPath]}
+        style={{ width: '100%', borderRight: 0 }}
         mode="inline"
         items={menuItems}
         onClick={onMenuClick}

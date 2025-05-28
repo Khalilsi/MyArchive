@@ -5,8 +5,8 @@
 
 .left-panel {
   flex: 1;
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
-              url('demandeBackground.webp') center/cover no-repeat;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("demandeBackground.webp") center/cover no-repeat;
   color: white;
   display: flex;
   align-items: center;
@@ -114,7 +114,6 @@
   flex-grow: 1;
 }
 
-
 /* Responsive design */
 /* Responsive Breakpoints */
 @media (max-width: 768px) {
@@ -141,7 +140,10 @@
 
   .submit-btn {
     width: 100% !important;
-    margin-left: 0 !important;
+    margin-left: 18% !important;
+  }
+  .archive-tag {
+    margin-bottom: 50%;
   }
 }
 
@@ -156,6 +158,10 @@
 
   .form-row .ant-form-item {
     min-width: 48%;
+  }
+  .submit-btn {
+    width: 100% !important;
+    margin-left: 18% !important;
   }
 }
 

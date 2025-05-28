@@ -14,15 +14,19 @@ import RequestForm from "./pages/connexion/demande.jsx";
 import ActualitePage from "./pages/Actualité.jsx";
 import RequestList from "./pages/admin/RequestList.jsx";
 import UserManagement from "./pages/admin/UserManagement.jsx";
+import SupportAdmin from "./pages/admin/SupportAdmin.jsx";
 import UserDashboard from "./pages/client/UserDashbored.jsx";
 import Archives from "./components/client/Mes archives/Archives.jsx";
 import ClientLayout from "./components/client/clientLayout.jsx";
 import Documents from "./components/client/Mes documents/Documents.jsx";
 import CompanyInfo from "./components/client/Mes Infomations/Company.jsx";
+import Support from "./components/client/support/support.jsx";
 import SecuritySettings from "./components/client/Settings/SecuritySettings.jsx";
 import AboutPage from "./pages/AboutUs.jsx";
 import FAQPage from "./pages/FAQ.jsx";
-import ScrollToTop from './components/ScrollToTop';
+import ScrollToTop from "./components/ScrollToTop";
+import AdminLayout from "./components/adminPage/adminLayout.jsx";
+import ForfaitManagement from "./pages/admin/ForfaitManagement.jsx";
 
 function App() {
   return (
@@ -38,13 +42,14 @@ function App() {
           <Route path="/à propos nous" element={<AboutPage />} />
           <Route path="/FAQ" element={<FAQPage />} />
 
-
           {/* Protected Admin Routes */}
           <Route
             path="/admin/requests"
             element={
               <ProtectedRoute roles={["admin"]}>
-                <RequestList />
+                <AdminLayout>
+                  <RequestList />
+                </AdminLayout>
               </ProtectedRoute>
             }
           />
@@ -52,7 +57,29 @@ function App() {
             path="/admin/users"
             element={
               <ProtectedRoute roles={["admin"]}>
-                <UserManagement />
+                <AdminLayout>
+                  <UserManagement />
+                </AdminLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/support"
+            element={
+              <ProtectedRoute roles={["admin"]}>
+                <AdminLayout>
+                  <SupportAdmin />
+                </AdminLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/forfaits"
+            element={
+              <ProtectedRoute roles={["admin"]}>
+                <AdminLayout>
+                  <ForfaitManagement />
+                </AdminLayout>
               </ProtectedRoute>
             }
           />
@@ -106,7 +133,17 @@ function App() {
             element={
               <ProtectedRoute>
                 <ClientLayout>
-                  < SecuritySettings/>
+                  <SecuritySettings />
+                </ClientLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/client/support"
+            element={
+              <ProtectedRoute>
+                <ClientLayout>
+                  <Support />
                 </ClientLayout>
               </ProtectedRoute>
             }
