@@ -20,7 +20,7 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 app.use(cors({
-    origin: 'http://localhost:3000', 
+    origin: 'https://my-archive-n36z.vercel.app', 
     credentials: true
 }));
 
