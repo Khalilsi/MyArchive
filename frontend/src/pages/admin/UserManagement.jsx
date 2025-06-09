@@ -93,7 +93,7 @@ const UserManagement = () => {
 
   const columns = [
     {
-      title: 'Username',
+      title: 'Nom d\'utilisateur',
       dataIndex: 'username',
       key: 'username',
       render: (text) => <Space><UserOutlined /> {text}</Space>,
@@ -116,6 +116,7 @@ const UserManagement = () => {
     {
       title: 'Actions',
       key: 'actions',
+      
       render: (_, record) => (
         <Space>
           <Button
@@ -132,7 +133,7 @@ const UserManagement = () => {
             danger
             onClick={() => handleDelete(record._id)}
           >
-            Delete
+            Supprimer
           </Button>
         </Space>
       ),
@@ -142,7 +143,7 @@ const UserManagement = () => {
   return (
     <div style={{ padding: '24px' }}>
       <Card>
-        <Title level={3}>User Management</Title>
+        <Title level={3}>Gestion des utilisateurs</Title>
         <Table
           columns={columns}
           dataSource={users}

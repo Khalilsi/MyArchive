@@ -1,19 +1,22 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import "./HeroSection.css"; // Custom CSS for the Hero Section
 
 const HeroSection = () => {
+  const { t } = useTranslation();
+
   return (
-    <section class="hero-section">
-      <div class="hero-content">
-        <h1 class="hero-title">
-          MY archive
-        </h1>
-        <p class="hero-subtitle">
-          Digitalisez vos archives en toute simplicité et sécurité
-        </p>
-        <div class="hero-buttons">
-           <button class="hero-button white" onClick={() => window.location.href='/demande'}>Commencer</button>
-           <button class="hero-button dark" onClick={() => window.location.href='/login'}>Login</button> {/* go to login page /login */}
+    <section className="hero-section">
+      <div className="hero-content">
+        <h1 className="hero-title">MY archive</h1>
+        <p className="hero-subtitle">{t('hero.subtitle')}</p>
+        <div className="hero-buttons">
+          <button className="hero-button white" onClick={() => window.location.href='/demande'}>
+            {t('hero.start')}
+          </button>
+          <button className="hero-button dark" onClick={() => window.location.href='/login'}>
+            {t('hero.login')}
+          </button>
         </div>
       </div>
     </section>

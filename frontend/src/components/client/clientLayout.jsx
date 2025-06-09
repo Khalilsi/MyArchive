@@ -5,6 +5,8 @@ import Sidebar from '../client/sidebar/sidebar';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from 'react-toastify';
 
 const { Header, Content } = Layout;
 const { Text } = Typography;
@@ -33,7 +35,7 @@ const ClientLayout = ({ children }) => {
       setNewUsername(username);
       setNewEmail(email);
     } catch (error) {
-      message.error('Failed to fetch user profile');
+      toast.error('Échec du chargement du profil');
     }
   };
 
@@ -77,10 +79,10 @@ const ClientLayout = ({ children }) => {
       });
       setUsername(newUsername);
       setEmail(newEmail);
-      message.success('Profile updated successfully');
+      toast.success('Profil mis à jour avec succès');
       setEditingProfile(false);
     } catch (error) {
-      message.error('Failed to update profile');
+      toast.error('Échec de la mise à jour du profil');
     }
   };
 
@@ -113,11 +115,12 @@ const ClientLayout = ({ children }) => {
         </Header>
 
         <Modal
-          title="Update Profile"
+          title="Mettre à jour le profil"
           open={editingProfile}
           onCancel={() => setEditingProfile(false)}
           onOk={handleProfileUpdate}
-          okText="Update"
+          okText="Mettre à jour"
+          cancelText="Annuler"
         >
           <Input 
             placeholder="New Username" 
@@ -132,7 +135,10 @@ const ClientLayout = ({ children }) => {
           />
         </Modal>
 
-        {children}
+        
+
+        <Content style={{ margin: '10px' }}>{children}</Content>
+        <ToastContainer position="top-right" autoClose={3000} />
       </Layout>
     </Layout>
   );

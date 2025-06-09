@@ -4,6 +4,8 @@ import { Layout, Avatar, Typography, Space, Row, message, Modal, Input } from 'a
 import { UserOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import AdminSidebar from './sidebarAdmin';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from 'react-toastify';
 
 const { Header, Content } = Layout;
 const { Text } = Typography;
@@ -30,7 +32,7 @@ const AdminLayout = ({ children }) => {
       setNewUsername(username);
       setNewEmail(email);
     } catch (error) {
-      message.error('Failed to fetch profile');
+      toast.error('Échec du chargement du profil');
     }
   };
 
@@ -50,9 +52,9 @@ const AdminLayout = ({ children }) => {
       setUsername(newUsername);
       setEmail(newEmail);
       setEditingProfile(false);
-      message.success('Profile updated successfully');
+      toast.success('Profil mis à jour avec succès');
     } catch (error) {
-      message.error('Failed to update profile');
+      toast.error('Échec de la mise à jour du profil');
     }
   };
 
@@ -80,26 +82,28 @@ const AdminLayout = ({ children }) => {
         </Header>
 
         <Modal
-          title="Update Profile"
+          title="Mettre à jour le profil"
           open={editingProfile}
           onCancel={() => setEditingProfile(false)}
           onOk={handleProfileUpdate}
-          okText="Update"
+          okText="Mettre à jour"
+          cancelText="Annuler"
         >
           <Input
-            placeholder="New Username"
+            placeholder="Nouvel Nom d'utilisateur"
             value={newUsername}
             onChange={(e) => setNewUsername(e.target.value)}
-            style={{ marginBottom: 10 }}
+            style={{ marginBottom: 15 }}
           />
           <Input
-            placeholder="New Email"
+            placeholder="Nouvel Email"
             value={newEmail}
             onChange={(e) => setNewEmail(e.target.value)}
           />
         </Modal>
 
-        <Content style={{ margin: '16px' }}>{children}</Content>
+        <Content style={{ margin: '10px' }}>{children}</Content>
+        <ToastContainer position="top-right" autoClose={3000} />
       </Layout>
     </Layout>
   );

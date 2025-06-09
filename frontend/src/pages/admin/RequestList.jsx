@@ -13,11 +13,13 @@ import {
   Modal,
   Form,
   Input,
+  Tooltip,
 } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import RequestCard from "../../components/adminPage/ReqeustCard";
+import { EyeOutlined, EditOutlined } from "@ant-design/icons";
 
 const { Title } = Typography;
 const { Option } = Select;
@@ -33,6 +35,7 @@ const RequestList = () => {
   const [updateModalVisible, setUpdateModalVisible] = useState(false);
   const [updateForm] = Form.useForm();
   const [updating, setUpdating] = useState(false);
+  const [forfaits, setForfaits] = useState([]);
 
   useEffect(() => {
     const storedToken =
@@ -139,8 +142,39 @@ const RequestList = () => {
       default:
         color = "gray";
     }
-    return <Tag color={color}>{status.toUpperCase()}</Tag>;
+    const translations = {
+      accepted: "Acceptée",
+      rejected: "Rejetée",
+      waiting: "En attente",
+    };
+    return (
+      <Tag color={color}>{translations[status]?.toUpperCase() || status}</Tag>
+    );
   };
+
+  useEffect(() => {
+    const fetchForfaits = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/api/forfaits", {
+          headers: {
+            "x-auth-token": token,
+          },
+        });
+
+        if (response.data.success) {
+          setForfaits(response.data.data);
+        } else {
+          message.error("Failed to fetch forfaits");
+        }
+      } catch (error) {
+        message.error("Error fetching forfaits: " + error.message);
+      }
+    };
+
+    if (token) {
+      fetchForfaits();
+    }
+  }, [token]);
 
   const filteredRequests =
     filterStatus === "all"
@@ -149,7 +183,7 @@ const RequestList = () => {
 
   const columns = [
     {
-      title: "Company",
+      title: "Entreprise",
       dataIndex: "nomEntreprise",
       key: "nomEntreprise",
       render: (text, record) => (
@@ -161,31 +195,34 @@ const RequestList = () => {
       sorter: (a, b) => a.nomEntreprise.localeCompare(b.nomEntreprise),
     },
     {
-      title: "Details",
+      title: "Détails",
       dataIndex: "details",
       key: "details",
       render: (_, record) => (
         <Space direction="vertical" size="small">
           <div>
-            <strong>Sector:</strong> {record.secteurActivite}
+            <strong>Secteur:</strong> {record.secteurActivite}
           </div>
           <div>
             <strong>Address:</strong> {record.adresse}
           </div>
           <div>
-            <strong>Phone:</strong> {record.telephone}
+            <strong>Téléphone:</strong> {record.telephone}
           </div>
         </Space>
       ),
     },
     {
-      title: "Package",
+      title: "Forfait Choisi",
       dataIndex: "forfait",
       key: "forfait",
-      render: (text) => <Tag color="blue">{text}</Tag>,
+      render: (forfaitId) => {
+        const forfait = forfaits.find((f) => f._id === forfaitId);
+        return <Tag color="blue">{forfait ? forfait.name : "Inconnu"}</Tag>;
+      },
     },
     {
-      title: "Archive Types",
+      title: "Types d'archives",
       dataIndex: "typeArchives",
       key: "typeArchives",
       render: (types) => (
@@ -197,7 +234,7 @@ const RequestList = () => {
       ),
     },
     {
-      title: "Status",
+      title: "Etat de la demande",
       dataIndex: "status",
       key: "status",
       render: (status, record) => (
@@ -216,7 +253,7 @@ const RequestList = () => {
       onFilter: (value, record) => record.status === value,
     },
     {
-      title: "Date",
+      title: "Date ",
       dataIndex: "createdAt",
       key: "createdAt",
       render: (date) => new Date(date).toLocaleDateString(),
@@ -225,24 +262,30 @@ const RequestList = () => {
     {
       title: "Actions",
       key: "actions",
+      width: 10,
       render: (_, record) => (
-        <Space size="middle">
-          <Button type="link" onClick={() => handleViewRequest(record._id)}>
-            View
-          </Button>
-          <Button
-            type="link"
-            onClick={() => {
-              setSelectedRequest(record);
-              updateForm.setFieldsValue({
-                status: record.status,
-                adminNotes: record.adminNotes || "",
-              });
-              setUpdateModalVisible(true);
-            }}
-          >
-            Update Status
-          </Button>
+        <Space size="small">
+          <Tooltip title="Voir demande">
+            <Button
+              type="text"
+              icon={<EyeOutlined />}
+              onClick={() => handleViewRequest(record._id)}
+            />
+          </Tooltip>
+          <Tooltip title="Traiter la demande">
+            <Button
+              type="text"
+              icon={<EditOutlined />}
+              onClick={() => {
+                setSelectedRequest(record);
+                updateForm.setFieldsValue({
+                  status: record.status,
+                  adminNotes: record.adminNotes || "",
+                });
+                setUpdateModalVisible(true);
+              }}
+            />
+          </Tooltip>
         </Space>
       ),
     },
@@ -251,27 +294,27 @@ const RequestList = () => {
   return (
     <div style={{ padding: "24px", maxWidth: "100%", overflowX: "auto" }}>
       <Card>
-        <Title level={3}>Requests Management</Title>
+        <Title level={3}>Gestion des demandes</Title>
         <Divider />
 
         <div style={{ marginBottom: 16 }}>
           <Space>
-            <span>Filter by status:</span>
+            <span>Filtrer par statut :</span>
             <Select
               defaultValue="all"
               style={{ width: 120 }}
               onChange={setFilterStatus}
             >
-              <Option value="all">All</Option>
-              <Option value="waiting">Waiting</Option>
-              <Option value="accepted">Accepted</Option>
-              <Option value="rejected">Rejected</Option>
+              <Option value="all">Tous</Option>
+              <Option value="waiting">En attende</Option>
+              <Option value="accepted">Acceptée</Option>
+              <Option value="rejected">Refusée</Option>
             </Select>
             <Badge
               count={requests.filter((r) => r.status === "waiting").length}
               style={{ backgroundColor: "#faad14" }}
             />
-            <span>Pending requests</span>
+            <span>Demandes en attente</span>
           </Space>
         </div>
 
@@ -357,7 +400,7 @@ const RequestList = () => {
             showSizeChanger: true,
             pageSizeOptions: ["10", "20", "50"],
             showTotal: (total, range) =>
-              `${range[0]}-${range[1]} of ${total} items`,
+              `${range[0]}-${range[1]} of ${total} demandes`,
           }}
         />
       </Card>

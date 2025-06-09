@@ -14,7 +14,10 @@ import {
   Modal,
   Typography,
   Spin,
+  Tooltip,
+  Popover,
 } from "antd";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 import axios from "axios";
 import "../style/demande.css";
 
@@ -115,6 +118,27 @@ const RequestForm = () => {
       setSubmitting(false);
     }
   };
+  const formatFeatureKey = (key) => {
+    const labels = {
+      gedDashboard: "Tableau de bord GED",
+      classementAuto: "Classement automatique",
+      ocrSearch: "Recherche OCR",
+      cloudStorage: "Stockage Cloud",
+      activityLog: "Journal d’activité",
+      batchDownload: "Téléchargement groupé",
+      autoBackup: "Sauvegarde automatique",
+      apiIntegration: "Intégration API",
+      dataSecurity: "Sécurité des données",
+    };
+    return labels[key] || key;
+  };
+
+  const formatFeatureValue = (value) => {
+    if (typeof value === "boolean") {
+      return value ? "Oui" : "Non";
+    }
+    return value;
+  };
 
   if (isSuccess) {
     return (
@@ -125,32 +149,29 @@ const RequestForm = () => {
           closable={false}
           centered
           width={600}
-          maskStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}
-          bodyStyle={{ padding: '4px' }}
+          maskStyle={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}
+          bodyStyle={{ padding: "4px" }}
         >
-        <Result
-          status="success"
-          title="Demande envoyée avec succès!"
-          subTitle="Nous avons bien reçu votre demande de numérisation. Notre équipe la traitera dans les plus brefs délais."
-          extra={[
-            <Button 
-              type="primary" 
-              key="new"
-              onClick={() => {
-                setIsSuccess(false);
-                form.resetFields();
-              }}
-            >
-              Nouvelle Demande
-            </Button>,
-            <Button 
-              key="home"
-              onClick={() => window.location.href = '/'}
-            >
-              Retour à l'accueil
-            </Button>,
-          ]}
-        />
+          <Result
+            status="success"
+            title="Demande envoyée avec succès!"
+            subTitle="Nous avons bien reçu votre demande de numérisation. Notre équipe la traitera dans les plus brefs délais."
+            extra={[
+              <Button
+                type="primary"
+                key="new"
+                onClick={() => {
+                  setIsSuccess(false);
+                  form.resetFields();
+                }}
+              >
+                Nouvelle Demande
+              </Button>,
+              <Button key="home" onClick={() => (window.location.href = "/")}>
+                Retour à l'accueil
+              </Button>,
+            ]}
+          />
         </Modal>
       </div>
     );
@@ -159,6 +180,26 @@ const RequestForm = () => {
   return (
     <div className="request-container">
       <div className="left-panel">
+        <Tooltip title="Allez à la page de connexion">
+          <Button
+            type="text"
+            icon={
+              <ArrowLeftOutlined style={{ fontSize: "20px", color: "white" }} />
+            }
+            onClick={() =>
+              (window.location.href = "http://localhost:3000/login")
+            }
+            style={{
+              position: "absolute",
+              top: 20,
+              left: 20,
+              zIndex: 10,
+              backgroundColor: "rgba(0, 0, 0, 0.4)",
+              border: "none",
+              boxShadow: "0 0 4px rgba(0,0,0,0.5)",
+            }}
+          />
+        </Tooltip>
         <div className="image-overlay">
           <h1>Vous avez des archives à numériser ?</h1>
           <p>Simplifiez votre gestion documentaire dès aujourd'hui!</p>
@@ -263,7 +304,6 @@ const RequestForm = () => {
                 <div className="selected-archives">
                   {selectedArchives.map((type) => (
                     <Tag
-                      
                       color="blue"
                       key={type}
                       closable
@@ -292,19 +332,42 @@ const RequestForm = () => {
               <Row gutter={[16, 16]} justify="space-around">
                 {forfaits.map((forfait) => (
                   <Col key={forfait._id} xs={24} sm={12} md={8}>
-                    <Card
-                      className={`package-card ${
-                        selectedPackage === forfait._id ? "selected" : ""
-                      }`}
-                      onClick={() => handlePackageSelect(forfait._id)}
-                      hoverable
+                    <Popover
+                      placement="top"
+                      title="Détails du forfait"
+                      content={
+                        <div style={{ maxWidth: "250px" }}>
+                          {Object.entries(forfait.features || {}).map(
+                            ([key, value]) => (
+                              <p key={key} style={{ marginBottom: 4 }}>
+                                <strong>{formatFeatureKey(key)}:</strong>{" "}
+                                {formatFeatureValue(value)}
+                              </p>
+                            )
+                          )}
+                        </div>
+                      }
                     >
-                      <div className="package-card-content">
-                        <h3>{forfait.name}</h3>
-                        <Paragraph><strong>Prix:</strong> {forfait.price} TND</Paragraph>
-                        <Paragraph><strong>Stockage:</strong> {forfait.maxStorage} Mo</Paragraph>
-                      </div>
-                    </Card>
+                      <Card
+                        className={`package-card ${
+                          selectedPackage === forfait._id ? "selected" : ""
+                        }`}
+                        onClick={() => handlePackageSelect(forfait._id)}
+                        hoverable
+                      >
+                        <div className="package-card-content">
+                          <h3>{forfait.name}</h3>
+                          <Paragraph>
+                            <strong>Prix:</strong> {forfait.annualPrice} TND /
+                            an
+                          </Paragraph>
+                          <Paragraph>
+                            <strong>Documents max/an:</strong>{" "}
+                            {forfait.maxDocumentsPerYear}
+                          </Paragraph>
+                        </div>
+                      </Card>
+                    </Popover>
                   </Col>
                 ))}
               </Row>

@@ -87,7 +87,10 @@
   cursor: pointer;
   transition: all 0.3s ease;
   border: 1px solid #d9d9d9;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12px;
 }
 
 .package-card.selected {
@@ -96,7 +99,7 @@
 }
 
 .package-card-content {
-  padding: 16px;
+  padding: 1px;
   text-align: center;
   height: 100%;
   display: flex;

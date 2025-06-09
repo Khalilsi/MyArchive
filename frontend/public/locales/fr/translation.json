@@ -1,0 +1,12 @@
+{
+  "hero": {
+    "subtitle": "Digitalisez vos archives en toute simplicité et sécurité",
+    "start": "Commencer",
+    "login": "Connexion"
+  },
+  "navbar": {
+    "actualité": "actualité",
+    "about": "À propos nous",
+    "faq": "FAQ"
+  }
+}

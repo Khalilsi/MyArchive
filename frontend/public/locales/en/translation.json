@@ -1,0 +1,12 @@
+{
+  "hero": {
+    "subtitle": "Digitize your archives with ease and security",
+    "start": "Get Started",
+    "login": "Login"
+  },
+  "navbar": {
+    "actualité": "news",
+    "about": "About Us",
+    "faq": "FAQ"
+  }
+}

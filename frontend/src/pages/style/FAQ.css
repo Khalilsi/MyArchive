@@ -106,11 +106,11 @@
   margin-bottom: 16px;
 }
 
-.ant-btn-primary {
+/* .ant-btn-primary {
   
   height: 40px;
   font-size: 16px;
-}
+} */
 
 /* Responsive Design */
 @media (max-width: 768px) {

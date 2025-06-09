@@ -4,8 +4,8 @@ import { useNavigate, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "../style/login.css";
 import { useAuth } from "../../context/AuthContext";
 
@@ -36,7 +36,7 @@ const Login = () => {
 
         login(user, token);
 
-        toast.success('Connexion réussie !', {
+        toast.success("Connexion réussie !", {
           position: "top-center",
           autoClose: 2000,
           hideProgressBar: false,
@@ -44,7 +44,6 @@ const Login = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          
         });
 
         if (user.role === "admin") {
@@ -54,18 +53,21 @@ const Login = () => {
         }
       }
     } catch (error) {
-      toast.error((error.response?.status === 401
-        ? "Email ou mot de passe incorrect"
-        : "Erreur lors de la connexion. Veuillez réessayer."), {
-        position: "bottom-left",
-        autoClose: 4000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      toast.error(
+        error.response?.status === 401
+          ? "Email ou mot de passe incorrect"
+          : "Erreur lors de la connexion. Veuillez réessayer.",
+        {
+          position: "bottom-left",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        }
+      );
     }
   };
 
@@ -157,9 +159,9 @@ const Login = () => {
 
           <div className="login-footer">
             Si tu n'avais pas de compte ?Tu peux faire une{" "}
-             <Link to="/demande" className="login-link">
+            <Link to="/demande" className="login-link">
               Demande
-            </Link> 
+            </Link>
           </div>
         </Form>
       </div>

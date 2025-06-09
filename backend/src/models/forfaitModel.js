@@ -5,13 +5,23 @@ const forfaitSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      enum: ["Freemium ", "Premium", "Corporate"], // Example plans
+      enum: ["Freemium", "Premium", "Corporate"], // Fixed typo: extra space removed from "Freemium"
     },
-    maxStorage: {
-      type: Number, // Storage in MB (e.g., 100MB for Free)
-      required: true,
+
+    // Quantitative limits
+    maxDocumentsPerYear: { type: Number, required: true },
+    maxDocumentsPerMonth: { type: Number, required: true },
+
+    // Pricing
+    unitPrice: { type: Number, required: true }, // Price per document
+    annualPrice: { type: Number, required: true },
+
+    // Functionalities
+    features: {
+      type: Map,
+      of: mongoose.Schema.Types.Mixed,
+      default: {},
     },
-    price: { type: Number, required: true }, 
   },
   { timestamps: true }
 );
