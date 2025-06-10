@@ -8,6 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../style/login.css";
 import { useAuth } from "../../context/AuthContext";
+import apiClient from "../../Api/client";
 
 const Login = () => {
   const { login } = useAuth();
@@ -15,8 +16,8 @@ const Login = () => {
 
   const handleSubmit = async (values) => {
     try {
-      const response = await axios.post(
-        "http://localhost:4000/api/auth/login",
+      const response = await apiClient.post(
+        "/auth/login",
         {
           email: values.email,
           password: values.password,
