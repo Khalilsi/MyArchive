@@ -36,7 +36,7 @@ const RequestForm = () => {
   useEffect(() => {
     const fetchForfaits = async () => {
       try {
-        const res = await apiClient.get("/api/forfaits");
+        const res = await axios.get("http://localhost:4000/api/forfaits");
         setForfaits(res.data.data);
       } catch (err) {
         message.error("Échec de chargement des forfaits");
