@@ -19,10 +19,14 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-app.use(cors({
-    origin: 'http://localhost:3000', 
-    credentials: true
-}));
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production' 
+    ? process.env.FRONTEND_URL_PROD 
+    : process.env.FRONTEND_URL_DEV,
+  credentials: true
+};
+
+app.use(cors(corsOptions));
 
 // Middleware
 app.use(express.json());

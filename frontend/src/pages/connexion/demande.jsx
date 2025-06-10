@@ -20,6 +20,7 @@ import {
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import axios from "axios";
 import "../style/demande.css";
+import apiClient from "../../Api/client";
 
 const { Title, Paragraph } = Typography;
 
@@ -35,7 +36,7 @@ const RequestForm = () => {
   useEffect(() => {
     const fetchForfaits = async () => {
       try {
-        const res = await axios.get("http://localhost:4000/api/forfaits");
+        const res = await apiClient.get("/api/forfaits");
         setForfaits(res.data.data);
       } catch (err) {
         message.error("Échec de chargement des forfaits");
