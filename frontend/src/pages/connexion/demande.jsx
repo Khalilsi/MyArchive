@@ -96,8 +96,8 @@ const RequestForm = () => {
         forfait: values.package,
       };
 
-      const response = await axios.post(
-        "http://localhost:4000/api/requests/",
+      const response = await apiClient.post(
+        "/api/requests/",
         requestData
       );
 
@@ -188,7 +188,7 @@ const RequestForm = () => {
               <ArrowLeftOutlined style={{ fontSize: "20px", color: "white" }} />
             }
             onClick={() =>
-              (window.location.href = "http://localhost:3000/login")
+              (window.location.href = "/login")
             }
             style={{
               position: "absolute",

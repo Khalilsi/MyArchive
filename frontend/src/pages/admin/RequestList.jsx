@@ -20,6 +20,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import RequestCard from "../../components/adminPage/ReqeustCard";
 import { EyeOutlined, EditOutlined } from "@ant-design/icons";
+import apiClient from '../../Api/client';
 
 const { Title } = Typography;
 const { Option } = Select;
@@ -50,7 +51,7 @@ const RequestList = () => {
   const fetchRequests = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:4000/api/requests", {
+      const response = await apiClient.get("/api/requests", {
         headers: {
           "x-auth-token": token,
         },
@@ -81,8 +82,8 @@ const RequestList = () => {
 
   const handleViewRequest = async (id) => {
     try {
-      const response = await axios.get(
-        `http://localhost:4000/api/requests/${id}`,
+      const response = await apiClient.get(
+        `/api/requests/${id}`,
         {
           headers: {
             "x-auth-token": token,
@@ -102,8 +103,8 @@ const RequestList = () => {
   const handleStatusUpdate = async (values) => {
     try {
       setUpdating(true);
-      const response = await axios.patch(
-        `http://localhost:4000/api/requests/${selectedRequest._id}/status`,
+      const response = await apiClient.patch(
+        `/api/requests/${selectedRequest._id}/status`,
         values,
         {
           headers: {
@@ -155,7 +156,7 @@ const RequestList = () => {
   useEffect(() => {
     const fetchForfaits = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/forfaits", {
+        const response = await apiClient.get("/api/forfaits", {
           headers: {
             "x-auth-token": token,
           },

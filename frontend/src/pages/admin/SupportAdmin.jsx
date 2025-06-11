@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Card, Input, Button, List, Spin, message as antdMessage } from "antd";
 import { SendOutlined } from "@ant-design/icons";
 import axios from "axios";
+import apiClient from '../../Api/client';
 
 const { TextArea } = Input;
 
@@ -43,7 +44,7 @@ const Support = () => {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:4000/api/users", {
+      const response = await apiClient.get("http://localhost:4000/api/users", {
         headers: { "x-auth-token": token },
       });
 
@@ -61,7 +62,7 @@ const Support = () => {
     if (!userId) return;
     setLoading(true);
     try {
-      const res = await axios.get(
+      const res = await apiClient.get(
         `http://localhost:4000/api/support/admin/messages/${userId}`,
         {
           headers: { "x-auth-token": token },
@@ -83,7 +84,7 @@ const Support = () => {
     if (!newMessage.trim() || !selectedUserId) return;
     setSending(true);
     try {
-      const response = await axios.post(
+      const response = await apiClient.post(
         "http://localhost:4000/api/support/message",
         { message: newMessage, userId: selectedUserId },
         { headers: { "x-auth-token": token } }

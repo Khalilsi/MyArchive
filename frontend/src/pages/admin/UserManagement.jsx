@@ -12,6 +12,7 @@ import {
 } from 'antd';
 import { LoadingOutlined, UserOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import apiClient from '../../Api/client';
 
 const { Title } = Typography;
 const { Option } = Select;
@@ -27,7 +28,7 @@ const UserManagement = () => {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:4000/api/users', {
+      const response = await apiClient.get('http://localhost:4000/api/users', {
         headers: { 'x-auth-token': token }
       });
 
@@ -48,7 +49,7 @@ const UserManagement = () => {
   const handleRoleUpdate = async (userId, newRole) => {
     try {
       setUpdating(true);
-      const response = await axios.patch(
+      const response = await apiClient.patch(
         `http://localhost:4000/api/users/${userId}/role`,
         { role: newRole },
         { headers: { 'x-auth-token': token } }
@@ -75,7 +76,7 @@ const UserManagement = () => {
       cancelText: 'No',
       onOk: async () => {
         try {
-          const response = await axios.delete(
+          const response = await apiClient.delete(
             `http://localhost:4000/api/users/${userId}`,
             { headers: { 'x-auth-token': token } }
           );

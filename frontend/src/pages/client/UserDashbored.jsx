@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "../../components/client/sidebar/sidebar";
 import StatisticsCards from "../../components/client/accueille/accueille";
 import { useAuth } from "../../context/AuthContext";
+import apiClient from "../../Api/client";
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -62,7 +63,7 @@ const Dashboard = () => {
 
   const fetchArchives = async () => {
     try {
-      const response = await axios.get("http://localhost:4000/api/archives", {
+      const response = await apiClient.get("http://localhost:4000/api/archives", {
         headers: {
           "x-auth-token": token,
         },
@@ -83,7 +84,7 @@ const Dashboard = () => {
 
   const fetchDocuments = async () => {
     try {
-      const response = await axios.get("http://localhost:4000/api/documents", {
+      const response = await apiClient.get("http://localhost:4000/api/documents", {
         headers: {
           "x-auth-token": token,
         },
