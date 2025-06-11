@@ -17,7 +17,7 @@ const Login = () => {
   const handleSubmit = async (values) => {
     try {
       const response = await apiClient.post(
-        "/auth/login",
+        "api/auth/login",
         {
           email: values.email,
           password: values.password,
