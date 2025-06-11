@@ -11,6 +11,7 @@ import {
   Select,
 } from "antd";
 import axios from "axios";
+import apiClient from "../../../Api/client";
 
 const { Content } = Layout;
 
@@ -24,8 +25,8 @@ const CompanyInfo = () => {
     try {
       const token =
         localStorage.getItem("token") || sessionStorage.getItem("token");
-      const response = await axios.get(
-        "http://localhost:4000/api/requests/company/info",
+      const response = await apiClient.get(
+        "/api/requests/company/info",
         {
           headers: {
             "x-auth-token": token,
@@ -54,8 +55,8 @@ const CompanyInfo = () => {
     try {
       const token =
         localStorage.getItem("token") || sessionStorage.getItem("token");
-      const response = await axios.patch(
-        "http://localhost:4000/api/requests/company/update",
+      const response = await apiClient.patch(
+        "/api/requests/company/update",
         values,
         {
           headers: {

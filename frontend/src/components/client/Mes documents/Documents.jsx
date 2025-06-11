@@ -33,6 +33,7 @@ import {
   UploadOutlined,
 } from "@ant-design/icons";
 import axios from "axios";
+import apiClient from "../../../Api/client"; // Adjust the import path as necessary
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -73,7 +74,7 @@ const Documents = () => {
       setLoading(true);
       const token =
         localStorage.getItem("token") || sessionStorage.getItem("token");
-      const response = await axios.get("http://localhost:4000/api/documents", {
+      const response = await apiClient.get("/api/documents", {
         headers: {
           "x-auth-token": token,
         },
@@ -93,7 +94,7 @@ const Documents = () => {
     try {
       const token =
         localStorage.getItem("token") || sessionStorage.getItem("token");
-      const response = await axios.get("http://localhost:4000/api/archives", {
+      const response = await apiClient.get("/api/archives", {
         headers: {
           "x-auth-token": token,
         },
@@ -123,8 +124,8 @@ const Documents = () => {
     try {
       const token =
         localStorage.getItem("token") || sessionStorage.getItem("token");
-      const response = await axios.delete(
-        `http://localhost:4000/api/documents/${documentId}`,
+      const response = await apiClient.delete(
+        `/api/documents/${documentId}`,
         {
           headers: {
             "x-auth-token": token,
@@ -173,8 +174,8 @@ const Documents = () => {
         return;
       }
 
-      const response = await axios.post(
-        "http://localhost:4000/api/documents",
+      const response = await apiClient.post(
+        "/api/documents",
         formData,
         {
           headers: {

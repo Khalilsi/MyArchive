@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect,useCallback } from "react";
 import axios from "axios";
+import apiClient from "../Api/client";
 
 const AuthContext = createContext(null);
 
@@ -17,7 +18,7 @@ export const AuthProvider = ({ children }) => {
         return;
       }
 
-      const response = await axios.get("http://localhost:4000/api/auth/verify", {
+      const response = await apiClient.get("/api/auth/verify", {
         headers: {
           "x-auth-token": token
         }
@@ -57,7 +58,7 @@ export const AuthProvider = ({ children }) => {
       const token = localStorage.getItem("token") || sessionStorage.getItem("token");
       
       if (token) {
-        await axios.post("http://localhost:4000/api/auth/logout", null, {
+        await apiClient.post("/api/auth/logout", null, {
           headers: {
             "x-auth-token": token
           }

@@ -21,6 +21,7 @@ import {
   CloseCircleFilled,
 } from "@ant-design/icons";
 import axios from "axios";
+import apiClient from "../../../Api/client"; // Adjust the import path as necessary
 
 const { Title } = Typography;
 
@@ -40,8 +41,8 @@ const SecuritySettings = () => {
     try {
       const token =
         localStorage.getItem("token") || sessionStorage.getItem("token");
-      const response = await axios.get(
-        "http://localhost:4000/api/profile/connection-history",
+      const response = await apiClient.get(
+        "/api/profile/connection-history",
         {
           headers: {
             "x-auth-token": token,
@@ -96,8 +97,8 @@ const SecuritySettings = () => {
     try {
       const token =
         localStorage.getItem("token") || sessionStorage.getItem("token");
-      const response = await axios.post(
-        "http://localhost:4000/api/profile/change-password",
+      const response = await apiClient.post(
+        "/api/profile/change-password",
         values,
         {
           headers: {

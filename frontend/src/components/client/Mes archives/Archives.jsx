@@ -12,6 +12,7 @@ import {
 } from "antd";
 import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
 import axios from "axios";
+import apiClient from "../../../Api/client";
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -40,7 +41,7 @@ const Archives = () => {
       setLoading(true);
       const token =
         localStorage.getItem("token") || sessionStorage.getItem("token");
-      const response = await axios.get("http://localhost:4000/api/archives", {
+      const response = await apiClient.get("/api/archives", {
         headers: {
           "x-auth-token": token,
         },
@@ -61,8 +62,8 @@ const Archives = () => {
       setCreatingArchive(true);
       const token =
         localStorage.getItem("token") || sessionStorage.getItem("token");
-      const response = await axios.post(
-        "http://localhost:4000/api/archives",
+      const response = await apiClient.post(
+        "/api/archives",
         { name: values.name },
         {
           headers: {
@@ -88,8 +89,8 @@ const Archives = () => {
     try {
       const token =
         localStorage.getItem("token") || sessionStorage.getItem("token");
-      const response = await axios.delete(
-        `http://localhost:4000/api/archives/${archiveId}`,
+      const response = await apiClient.delete(
+        `/api/archives/${archiveId}`,
         {
           headers: {
             "x-auth-token": token,

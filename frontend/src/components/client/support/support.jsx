@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Card, Input, Button, List, Spin, message as antdMessage } from "antd";
 import { SendOutlined } from "@ant-design/icons";
 import axios from "axios";
+import apiClient from "../../../Api/client"; // Adjust the import path as necessary
 
 const { TextArea } = Input;
 
@@ -18,7 +19,7 @@ const Support = () => {
   const fetchMessages = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:4000/api/support/messages", {
+      const res = await apiClient.get("/api/support/messages", {
         headers: {
           "x-auth-token": token,
         },
@@ -35,8 +36,8 @@ const Support = () => {
     if (!newMessage.trim()) return;
     setSending(true);
     try {
-      const res = await axios.post(
-        "http://localhost:4000/api/support/message",
+      const res = await apiClient.post(
+        "/api/support/message",
         { message: newMessage },
         {
           headers: {
