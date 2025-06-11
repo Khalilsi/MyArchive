@@ -63,7 +63,7 @@ const Dashboard = () => {
 
   const fetchArchives = async () => {
     try {
-      const response = await apiClient.get("http://localhost:4000/api/archives", {
+      const response = await apiClient.get("/api/archives", {
         headers: {
           "x-auth-token": token,
         },
@@ -84,7 +84,7 @@ const Dashboard = () => {
 
   const fetchDocuments = async () => {
     try {
-      const response = await apiClient.get("http://localhost:4000/api/documents", {
+      const response = await apiClient.get("/api/documents", {
         headers: {
           "x-auth-token": token,
         },
