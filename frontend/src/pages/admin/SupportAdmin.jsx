@@ -44,7 +44,7 @@ const Support = () => {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await apiClient.get("http://localhost:4000/api/users", {
+      const response = await apiClient.get("/api/users", {
         headers: { "x-auth-token": token },
       });
 
@@ -63,7 +63,7 @@ const Support = () => {
     setLoading(true);
     try {
       const res = await apiClient.get(
-        `http://localhost:4000/api/support/admin/messages/${userId}`,
+        `/api/support/admin/messages/${userId}`,
         {
           headers: { "x-auth-token": token },
         }
@@ -85,7 +85,7 @@ const Support = () => {
     setSending(true);
     try {
       const response = await apiClient.post(
-        "http://localhost:4000/api/support/message",
+        "/api/support/message",
         { message: newMessage, userId: selectedUserId },
         { headers: { "x-auth-token": token } }
       );

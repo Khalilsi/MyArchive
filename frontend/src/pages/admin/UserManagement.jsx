@@ -28,7 +28,7 @@ const UserManagement = () => {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await apiClient.get('http://localhost:4000/api/users', {
+      const response = await apiClient.get('/api/users', {
         headers: { 'x-auth-token': token }
       });
 
@@ -50,7 +50,7 @@ const UserManagement = () => {
     try {
       setUpdating(true);
       const response = await apiClient.patch(
-        `http://localhost:4000/api/users/${userId}/role`,
+        `/api/users/${userId}/role`,
         { role: newRole },
         { headers: { 'x-auth-token': token } }
       );
@@ -69,15 +69,15 @@ const UserManagement = () => {
 
   const handleDelete = async (userId) => {
     Modal.confirm({
-      title: 'Are you sure you want to delete this user?',
-      content: 'This action cannot be undone.',
+      title: 'Êtes-vous sûr de vouloir supprimer cet utilisateur ?',
+      content: 'Cette action ne peut pas être annulée .',
       okText: 'Yes',
       okType: 'danger',
       cancelText: 'No',
       onOk: async () => {
         try {
           const response = await apiClient.delete(
-            `http://localhost:4000/api/users/${userId}`,
+            `/api/users/${userId}`,
             { headers: { 'x-auth-token': token } }
           );
 
