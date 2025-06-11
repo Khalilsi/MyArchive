@@ -6,6 +6,8 @@ import axios from 'axios';
 import AdminSidebar from './sidebarAdmin';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
+import apiClient from "../../Api/client";
+
 
 const { Header, Content } = Layout;
 const { Text } = Typography;
@@ -21,7 +23,7 @@ const AdminLayout = ({ children }) => {
   const fetchProfile = async () => {
     try {
       const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-      const response = await axios.get('http://localhost:4000/api/profile', {
+      const response = await apiClient.get('/api/profile', {
         headers: {
           'x-auth-token': token
         }
@@ -43,7 +45,7 @@ const AdminLayout = ({ children }) => {
   const handleProfileUpdate = async () => {
     try {
       const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-      await axios.put('http://localhost:4000/api/profile', {
+      await apiClient.put('/api/profile', {
         username: newUsername,
         email: newEmail,
       }, {
