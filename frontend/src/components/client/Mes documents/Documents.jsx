@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Suspense } from "react";
 import { Document as PDFViewer, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
@@ -124,14 +124,11 @@ const Documents = () => {
     try {
       const token =
         localStorage.getItem("token") || sessionStorage.getItem("token");
-      const response = await apiClient.delete(
-        `/api/documents/${documentId}`,
-        {
-          headers: {
-            "x-auth-token": token,
-          },
-        }
-      );
+      const response = await apiClient.delete(`/api/documents/${documentId}`, {
+        headers: {
+          "x-auth-token": token,
+        },
+      });
 
       if (response.data.success) {
         message.success("Document supprimé avec succès");
@@ -144,46 +141,30 @@ const Documents = () => {
 
   const handleUpload = async (values) => {
     try {
-      console.log("Form values:", values); // Debug log
-
-      // Check if file exists and is properly structured
       if (!values.file || !values.file[0]) {
         message.error("Veuillez sélectionner un fichier");
         return;
       }
 
       const formData = new FormData();
+      formData.append("file", values.file[0].originFileObj);
       formData.append("name", values.name);
       formData.append("category", values.category || "");
-      formData.append("archiveId", values.archive);
-
-      // Check if we have the file object
-      const file = values.file[0].originFileObj || values.file[0];
-      formData.append("file", file);
-
-      // Debug log to see what's being sent
-      console.log("Archive ID:", values.archive);
-      console.log("File:", file);
+      formData.append("archive", values.archive); // Changed from archiveId to archive
 
       const token =
         localStorage.getItem("token") || sessionStorage.getItem("token");
-
-      // Add error handling for missing token
       if (!token) {
         message.error("Session expirée, veuillez vous reconnecter");
         return;
       }
 
-      const response = await apiClient.post(
-        "/api/documents",
-        formData,
-        {
-          headers: {
-            "x-auth-token": token,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await apiClient.post("/api/documents/upload", formData, {
+        headers: {
+          "x-auth-token": token,
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       if (response.data.success) {
         message.success("Document ajouté avec succès");
@@ -325,14 +306,59 @@ const Documents = () => {
   };
 
   useEffect(() => {
-    if (
-      isPreviewOpen &&
-      selectedDocument?.type ===
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    ) {
-      handleWordPreview(selectedDocument.filePath);
-    }
+    const fetchSecureUrl = async () => {
+      if (
+        isPreviewOpen &&
+        selectedDocument &&
+        selectedDocument.type === "application/pdf"
+      ) {
+        try {
+          console.log("Fetching secure URL for:", selectedDocument.filePath);
+          const secureUrl = await getSecureDocumentUrl(
+            selectedDocument.filePath
+          );
+          console.log("Received secure URL:", secureUrl);
+
+          setSelectedDocument((prev) => ({
+            ...prev,
+            filePath: secureUrl,
+          }));
+        } catch (error) {
+          console.error("Error fetching secure URL:", error);
+          message.error("Failed to prepare PDF for viewing");
+        }
+      }
+    };
+
+    fetchSecureUrl();
   }, [isPreviewOpen, selectedDocument]);
+
+  const getSecureDocumentUrl = async (originalUrl) => {
+    try {
+      const token =
+        localStorage.getItem("token") || sessionStorage.getItem("token");
+
+      console.log("Original URL before request:", originalUrl);
+
+      const response = await apiClient.get("/api/documents/secure-url", {
+        params: {
+          url: originalUrl, // ✅ FIXED: use the parameter passed to this function
+        },
+        headers: {
+          "x-auth-token": token,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.data.success) {
+        return response.data.secureUrl;
+      }
+      throw new Error(response.data.message || "Failed to get secure URL");
+    } catch (error) {
+      console.error("Get secure URL error:", error);
+      throw error;
+    }
+  };
 
   return (
     <Content style={{ margin: "24px 16px" }}>
@@ -458,7 +484,8 @@ const Documents = () => {
                 backgroundColor: "#f5f5f5",
               }}
             >
-              {selectedDocument.type === "application/pdf" ? (
+              {selectedDocument.type === "application/pdf" &&
+              selectedDocument.filePath?.endsWith(".pdf") ? (
                 <div
                   style={{
                     backgroundColor: "white",
@@ -467,23 +494,50 @@ const Documents = () => {
                     boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
                   }}
                 >
-                  <PDFViewer
-                    file={selectedDocument.filePath}
-                    onLoadSuccess={onDocumentLoadSuccess}
-                    loading={
+                  <Suspense
+                    fallback={
                       <div style={{ textAlign: "center", padding: "40px" }}>
-                        <Spin size="large" tip="Chargement du PDF..." />
+                        <Spin size="large" tip="Préparation du PDF..." />
                       </div>
                     }
                   >
-                    <Page
-                      pageNumber={pageNumber}
-                      width={Math.min(850, window.innerWidth * 0.7) * scale}
-                      renderTextLayer={true}
-                      renderAnnotationLayer={true}
-                      className="pdf-page"
-                    />
-                  </PDFViewer>
+                    <PDFViewer
+                      file={selectedDocument.filePath}
+                      onLoadSuccess={onDocumentLoadSuccess}
+                      onLoadError={(error) => {
+                        console.error("PDF load error:", error);
+                        message.error(
+                          "Erreur lors du chargement du PDF. Réessayez plus tard."
+                        );
+                      }}
+                      loading={
+                        <div style={{ textAlign: "center", padding: "40px" }}>
+                          <Spin size="large" tip="Chargement du PDF..." />
+                        </div>
+                      }
+                    >
+                      <Page
+                        pageNumber={pageNumber}
+                        width={Math.min(850, window.innerWidth * 0.7) * scale}
+                        renderTextLayer={true}
+                        renderAnnotationLayer={true}
+                        className="pdf-page"
+                      />
+                    </PDFViewer>
+                  </Suspense>
+
+                  {/* Add link to open in new tab as fallback */}
+                  <div style={{ textAlign: "center", marginTop: "16px" }}>
+                    <a
+                      href={selectedDocument.filePath}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ color: "#1890ff" }}
+                    >
+                      Ouvrir dans un nouvel onglet
+                    </a>
+                  </div>
+
                   {numPages > 0 && (
                     <div
                       style={{
@@ -491,7 +545,7 @@ const Documents = () => {
                         bottom: "40px",
                         left: "50%",
                         transform: "translateX(-50%)",
-                        backgroundColor: "rgba(0, 0, 0, 0.4)", // semi-transparent black
+                        backgroundColor: "rgba(0, 0, 0, 0.4)",
                         padding: "8px 16px",
                         borderRadius: "24px",
                         boxShadow: "0 2px 8px rgba(0, 0, 0, 0.2)",
@@ -499,7 +553,7 @@ const Documents = () => {
                         alignItems: "center",
                         gap: "16px",
                         transition: "opacity 0.3s ease",
-                        opacity: 0.7, // start with 20% opacity
+                        opacity: 0.7,
                       }}
                       onMouseEnter={(e) => (e.currentTarget.style.opacity = 1)}
                       onMouseLeave={(e) =>
@@ -675,9 +729,6 @@ const Documents = () => {
               allowClear
               showSearch
               optionFilterProp="children"
-              onChange={(value) => {
-                form.setFieldsValue({ archive: value });
-              }}
             >
               {archives.map((archive) => (
                 <Select.Option key={archive._id} value={archive._id}>
@@ -693,9 +744,7 @@ const Documents = () => {
             rules={[{ required: true, message: "Le fichier est requis" }]}
             valuePropName="fileList"
             getValueFromEvent={(e) => {
-              if (Array.isArray(e)) {
-                return e;
-              }
+              if (Array.isArray(e)) return e;
               return e?.fileList;
             }}
           >
@@ -705,9 +754,6 @@ const Documents = () => {
               beforeUpload={() => false}
               accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
               style={{ padding: "20px 0" }}
-              onRemove={() => {
-                form.setFieldsValue({ file: [] });
-              }}
             >
               <p className="ant-upload-drag-icon">
                 <UploadOutlined />

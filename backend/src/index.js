@@ -58,10 +58,10 @@ app.use("/api/requests", requestRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/archives", archiveRoutes);
 app.use("/api/documents", documentRoutes);
-app.use(
-  "/uploads/documents",
-  express.static(path.join(__dirname, "uploads/documents"))
-);
+// app.use(
+//   "/uploads/documents",
+//   express.static(path.join(__dirname, "uploads/documents"))
+// );
 app.use("/api/support", supportRoutes);
 app.use("/api/forfaits", forfaitRoutes);
 

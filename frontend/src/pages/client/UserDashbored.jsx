@@ -5,9 +5,7 @@ import {
   Typography,
   message,
 } from "antd";
-import { UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "../../components/client/sidebar/sidebar";
 import StatisticsCards from "../../components/client/accueille/accueille";
 import { useAuth } from "../../context/AuthContext";
 import apiClient from "../../Api/client";
